@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NFC Monopoly</title>
+  <style>
+    :root {
+      --green:      #1a6b2a;
+      --dark-green: #0d3d17;
+      --gold:       #d4af37;
+      --red:        #c0392b;
+      --cream:      #fffdf5;
+      --text:       #1a1a1a;
+      --muted:      #666;
+      --shadow:     rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: var(--green);
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 40px, rgba(255,255,255,.025) 40px, rgba(255,255,255,.025) 41px),
+        repeating-linear-gradient(90deg,  transparent, transparent 40px, rgba(255,255,255,.025) 40px, rgba(255,255,255,.025) 41px);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    /* ── screens ── */
+    .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .screen.active { display: flex; }
+
+    /* ── card container ── */
+    .card {
+      background: var(--cream);
+      border-radius: 18px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px var(--shadow);
+      border: 1px solid rgba(212,175,55,.3);
+    }
+
+    /* ── logo ── */
+    .logo { text-align: center; margin-bottom: 32px; }
+    .logo h1 {
+      font-size: 52px; font-weight: 900; line-height: 1;
+      color: var(--gold);
+      text-shadow: 3px 3px 0 var(--dark-green), -2px -2px 0 var(--dark-green);
+      letter-spacing: 4px;
+    }
+    .logo p { color: rgba(255,255,255,.75); font-size: 13px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; }
+
+    /* ── buttons ── */
+    .btn {
+      display: block; width: 100%; padding: 15px;
+      border: none; border-radius: 12px;
+      font-size: 17px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      cursor: pointer; transition: transform .1s, box-shadow .1s;
+      margin-bottom: 12px;
+    }
+    .btn:last-child { margin-bottom: 0; }
+    .btn:active { transform: translateY(2px); }
+
+    .btn-gold    { background: var(--gold);    color: var(--dark-green); box-shadow: 0 4px 0 #9a7d10; }
+    .btn-gold:active { box-shadow: 0 2px 0 #9a7d10; }
+
+    .btn-outline { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
+
+    .btn-blue    { background: #2196f3; color: #fff; box-shadow: 0 4px 0 #1565c0; }
+    .btn-blue:active { box-shadow: 0 2px 0 #1565c0; }
+
+    .btn-red     { background: var(--red); color: #fff; box-shadow: 0 4px 0 #922b21; }
+    .btn-red:active { box-shadow: 0 2px 0 #922b21; }
+
+    .btn-green   { background: #27ae60; color: #fff; box-shadow: 0 4px 0 #1a7a42; }
+    .btn-green:active { box-shadow: 0 2px 0 #1a7a42; }
+
+    .btn-back {
+      background: transparent; border: none; cursor: pointer;
+      color: rgba(255,255,255,.65); font-size: 14px; text-decoration: underline;
+      padding: 8px 0; margin-bottom: 12px; align-self: flex-start;
+    }
+
+    /* ── forms ── */
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 700; color: var(--muted);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%; padding: 13px 14px; border: 2px solid #ddd; border-radius: 10px;
+      font-size: 16px; color: var(--text); background: #fff;
+      transition: border-color .2s;
+    }
+    .form-group input:focus { outline: none; border-color: var(--gold); }
+
+    /* ── NFC animation ── */
+    .nfc-wrap { text-align: center; padding: 32px 0 24px; }
+    .nfc-icon { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
+    .nfc-ring {
+      position: absolute; border-radius: 50%; border: 3px solid var(--gold);
+      animation: pulse 1.6s ease-out infinite;
+    }
+    .nfc-ring:nth-child(1) { width: 36px; height: 36px; top: 32px; left: 32px; animation-delay: 0s; }
+    .nfc-ring:nth-child(2) { width: 62px; height: 62px; top: 19px; left: 19px; animation-delay: .35s; }
+    .nfc-ring:nth-child(3) { width: 90px; height: 90px; top:  5px; left:  5px; animation-delay: .7s; }
+    .nfc-center { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); top: 39px; left: 39px; }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.15); } }
+
+    .scan-title    { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .scan-subtitle { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.55; }
+
+    /* ── player chip ── */
+    .player-chip {
+      background: linear-gradient(135deg, var(--dark-green), #1e7a34);
+      border: 2px solid var(--gold); border-radius: 14px;
+      padding: 18px 20px; color: #fff;
+      width: 100%; max-width: 420px; margin-bottom: 14px;
+    }
+    .chip-name    { font-size: 22px; font-weight: 800; color: var(--gold); }
+    .chip-balance { font-size: 34px; font-weight: 900; margin: 6px 0; }
+    .chip-balance span { font-size: 18px; font-weight: 400; opacity: .7; }
+    .chip-tx { font-size: 12px; opacity: .65; border-top: 1px solid rgba(255,255,255,.2); padding-top: 8px; margin-top: 8px; line-height: 1.5; }
+
+    /* ── info rows ── */
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #eee; }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .info-value { font-size: 15px; font-weight: 700; color: var(--text); text-align: right; max-width: 60%; word-break: break-word; }
+
+    /* ── step dots ── */
+    .steps { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+    .step  { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.25); }
+    .step.active { background: var(--gold); }
+    .step.done   { background: #27ae60; }
+
+    /* ── status banners ── */
+    .msg { padding: 11px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 14px; display: none; }
+    .msg-error   { background: rgba(192,57,43,.15);   color: #e74c3c; border: 1px solid rgba(192,57,43,.35); }
+    .msg-success { background: rgba(39,174,96,.15);   color: #1e8449; border: 1px solid rgba(39,174,96,.35); }
+    .msg-info    { background: rgba(212,175,55,.15);  color: #9a7d10; border: 1px solid rgba(212,175,55,.35); }
+
+    /* ── amount hero ── */
+    .amount-hero { text-align: center; margin-bottom: 4px; }
+    .amount-hero .label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .amount-hero .value { font-size: 48px; font-weight: 900; color: var(--dark-green); line-height: 1.1; }
+    .amount-hero .currency { font-size: 24px; }
+
+    /* ── screen title ── */
+    .screen-title { font-size: 22px; font-weight: 800; color: #fff; text-align: center; margin-bottom: 20px; }
+
+    /* ── divider ── */
+    hr.divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 14px 0; width: 100%; max-width: 420px; }
+
+    /* ── not supported banner ── */
+    #nfc-warn { display: none; max-width: 420px; width: 100%; margin-top: 14px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1 – MAIN MENU
+════════════════════════════════════════════════ -->
+<div id="s-main" class="screen active">
+  <div class="logo">
+    <h1>MONO<br>NFC</h1>
+    <p>Gestione Tag NFC</p>
+  </div>
+  <div class="card">
+    <button class="btn btn-gold"    onclick="mainRead()">📱 Lettura (Continua Partita)</button>
+    <button class="btn btn-outline" onclick="go('s-new-form')">✨ Nuova Partita</button>
+  </div>
+  <div id="main-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
+  <div id="nfc-warn" class="msg msg-info">⚠️ Web NFC non è supportato su questo browser.<br>Usa <strong>Chrome su Android</strong>.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2 – NUOVA PARTITA FORM
+════════════════════════════════════════════════ -->
+<div id="s-new-form" class="screen">
+  <button class="btn-back" onclick="go('s-main')">← Indietro</button>
+  <div class="screen-title">Nuova Partita</div>
+  <div class="card">
+    <div class="form-group">
+      <label>Nome</label>
+      <input id="f-nome" type="text" placeholder="Mario" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label>Cognome</label>
+      <input id="f-cognome" type="text" placeholder="Rossi" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label>Importo Iniziale (€)</label>
+      <input id="f-importo" type="number" placeholder="1500" min="1" step="1" />
+    </div>
+    <button class="btn btn-gold" onclick="newGameWrite()">Avanti → Scrivi Carta</button>
+  </div>
+  <div id="new-form-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 3 – GENERIC NFC SCAN
+     (used for: continua partita, nuova partita write, leggi carta)
+════════════════════════════════════════════════ -->
+<div id="s-scan" class="screen">
+  <button id="scan-back" class="btn-back" onclick="cancelScan()">← Annulla</button>
+  <div class="card" style="text-align:center;">
+    <div class="nfc-wrap">
+      <div class="nfc-icon" id="scan-icon">
+        <div class="nfc-ring"></div>
+        <div class="nfc-ring"></div>
+        <div class="nfc-ring"></div>
+        <div class="nfc-center"></div>
+      </div>
+      <div class="scan-title"    id="scan-title">Avvicina la carta</div>
+      <div class="scan-subtitle" id="scan-sub">Porta il tag NFC vicino al telefono</div>
+    </div>
+    <div id="scan-msg" class="msg msg-error"></div>
+    <button id="scan-retry" class="btn btn-outline" onclick="scanRetry()" style="display:none; margin-top:14px;">Riprova</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 4 – SECONDARY MENU
+════════════════════════════════════════════════ -->
+<div id="s-secondary" class="screen">
+  <div id="player-chip" class="player-chip"></div>
+  <div class="card">
+    <button class="btn btn-gold"    onclick="secReadCard()">📖 Leggi Carta</button>
+    <button class="btn btn-blue"    onclick="go('s-tx-amount')">💰 Transazione (Ricevi Denaro)</button>
+    <hr class="divider" style="margin:4px 0 12px;" />
+    <button class="btn btn-red"     onclick="startEndGame()">🚪 Fine Partita</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 5 – READ RESULT
+════════════════════════════════════════════════ -->
+<div id="s-read-result" class="screen">
+  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
+  <div class="screen-title">Dati Carta</div>
+  <div class="card">
+    <div id="read-result"></div>
+    <button class="btn btn-gold" onclick="go('s-secondary')" style="margin-top:20px;">OK</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 6 – TRANSAZIONE: IMPORTO
+════════════════════════════════════════════════ -->
+<div id="s-tx-amount" class="screen">
+  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
+  <div class="screen-title">Transazione</div>
+  <div class="steps">
+    <div class="step active" id="dot1"></div>
+    <div class="step"        id="dot2"></div>
+    <div class="step"        id="dot3"></div>
+  </div>
+  <div class="card">
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Quanto vuoi <strong>ricevere</strong>?</p>
+    <div class="form-group">
+      <label>Importo da Prelevare (€)</label>
+      <input id="tx-amount-input" type="number" placeholder="200" min="1" step="1" />
+    </div>
+    <button class="btn btn-gold" onclick="confirmTxAmount()">Avanti</button>
+  </div>
+  <div id="tx-amount-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 7 – TRANSAZIONE: SCANSIONE CARTA PAGANTE
+════════════════════════════════════════════════ -->
+<div id="s-tx-source" class="screen">
+  <div class="steps">
+    <div class="step done"></div>
+    <div class="step active"></div>
+    <div class="step"></div>
+  </div>
+  <div class="card" style="text-align:center; max-width:420px;">
+    <div id="tx-amount-hero" class="amount-hero"></div>
+    <div class="nfc-wrap">
+      <div class="nfc-icon">
+        <div class="nfc-ring" style="border-color:#e74c3c;"></div>
+        <div class="nfc-ring" style="border-color:#e74c3c;"></div>
+        <div class="nfc-ring" style="border-color:#e74c3c;"></div>
+        <div class="nfc-center" style="background:#e74c3c;"></div>
+      </div>
+      <div class="scan-title" style="color:#fff;">Carta del Pagante</div>
+      <div class="scan-subtitle">Avvicina la carta di chi deve pagare<br><em>Tieni la carta ferma fino alla conferma</em></div>
+    </div>
+    <div id="tx-source-msg" class="msg"></div>
+    <button id="tx-source-retry" class="btn btn-outline" onclick="doTxSource()" style="display:none; margin-top:14px;">Riprova</button>
+    <button class="btn btn-red" onclick="cancelTx()" style="margin-top:10px;">Annulla</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 8 – TRANSAZIONE: SCANSIONE CARTA PROPRIA
+════════════════════════════════════════════════ -->
+<div id="s-tx-dest" class="screen">
+  <div class="steps">
+    <div class="step done"></div>
+    <div class="step done"></div>
+    <div class="step active"></div>
+  </div>
+  <div class="card" style="text-align:center; max-width:420px;">
+    <div id="tx-source-ok" style="background:rgba(39,174,96,.12); border:1px solid rgba(39,174,96,.3); border-radius:10px; padding:10px 14px; font-size:13px; color:#1e8449; margin-bottom:4px;"></div>
+    <div class="nfc-wrap">
+      <div class="nfc-icon">
+        <div class="nfc-ring" style="border-color:#27ae60;"></div>
+        <div class="nfc-ring" style="border-color:#27ae60;"></div>
+        <div class="nfc-ring" style="border-color:#27ae60;"></div>
+        <div class="nfc-center" style="background:#27ae60;"></div>
+      </div>
+      <div class="scan-title" style="color:#fff;">La Tua Carta</div>
+      <div class="scan-subtitle">Avvicina la tua carta per ricevere i fondi<br><em>Tieni la carta ferma fino alla conferma</em></div>
+    </div>
+    <div id="tx-dest-msg" class="msg"></div>
+    <button id="tx-dest-retry" class="btn btn-outline" onclick="doTxDest()" style="display:none; margin-top:14px;">Riprova</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 9 – TRANSAZIONE COMPLETATA
+════════════════════════════════════════════════ -->
+<div id="s-tx-done" class="screen">
+  <div class="card" style="text-align:center; max-width:420px;">
+    <div style="font-size:64px; margin-bottom:12px;">✅</div>
+    <h2 style="font-size:22px; font-weight:800; margin-bottom:8px;">Transazione Completata</h2>
+    <div id="tx-done-info" style="color:var(--muted); font-size:14px; line-height:1.6; margin-bottom:22px;"></div>
+    <button class="btn btn-gold" onclick="showSecondary()">Torna al Menu</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 10 – FINE PARTITA
+════════════════════════════════════════════════ -->
+<div id="s-end" class="screen">
+  <button class="btn-back" onclick="go('s-secondary')">← Annulla</button>
+  <div class="card" style="text-align:center; max-width:420px;">
+    <div style="font-size:50px; margin-bottom:12px;">⚠️</div>
+    <h2 style="font-size:20px; font-weight:800; color:var(--red); margin-bottom:8px;">Fine Partita</h2>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">
+      Tutti i dati sulla carta verranno <strong>cancellati</strong>.<br>
+      Avvicina la tua carta per confermare.
+    </p>
+    <div class="nfc-wrap" style="padding:16px 0;">
+      <div class="nfc-icon">
+        <div class="nfc-ring" style="border-color:var(--red);"></div>
+        <div class="nfc-ring" style="border-color:var(--red);"></div>
+        <div class="nfc-ring" style="border-color:var(--red);"></div>
+        <div class="nfc-center" style="background:var(--red);"></div>
+      </div>
+    </div>
+    <div id="end-msg" class="msg"></div>
+    <button id="end-retry" class="btn btn-red" onclick="doEndGame()" style="display:none; margin-top:14px;">Riprova</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════  JAVASCRIPT  ════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── App state ── */
+const S = {
+  player:   null,   // current player data object from card
+  tx: { amount: 0, sourceName: '' },
+  scanRetryFn: null,
+};
+
+/* ── Data schema helpers ── */
+function emptyCard() {
+  return { proprietario: '', importo: 0, tx_verso: '', tx_quanto: 0, tx_dataora: '' };
+}
+
+/* ── Utility ── */
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function fmtEur(n) {
+  return '€\u202f' + Number(n).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtDate(iso) {
+  if (!iso) return 'N/D';
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('it-IT') + ' ' + d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+  } catch { return 'N/D'; }
+}
+
+function showMsg(id, type, text) {
+  const el = document.getElementById(id);
+  el.className = 'msg msg-' + type;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+function hideMsg(id) { const el = document.getElementById(id); el.style.display = 'none'; }
+
+/* ── NFC support check ── */
+function nfcOk() {
+  if (!('NDEFReader' in window)) {
+    document.getElementById('nfc-warn').style.display = 'block';
+    return false;
+  }
+  return true;
+}
+
+/* ── Parse NDEF message → object ── */
+function parseNDEF(message) {
+  for (const record of message.records) {
+    if (record.recordType === 'text') {
+      try {
+        const dec = new TextDecoder(record.encoding || 'utf-8');
+        return JSON.parse(dec.decode(record.data));
+      } catch { /* skip malformed */ }
+    }
+  }
+  return null;
+}
+
+/* ── Low-level NFC read (one-shot) ── */
+function nfcRead() {
+  return new Promise((resolve, reject) => {
+    const ndef = new NDEFReader();
+    const ctrl = new AbortController();
+    ndef.scan({ signal: ctrl.signal })
+      .then(() => {
+        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura. Riprova.')), { once: true });
+        ndef.addEventListener('reading', ({ message, serialNumber }) => {
+          ctrl.abort();
+          resolve({ data: parseNDEF(message), serialNumber });
+        }, { once: true });
+      })
+      .catch(err => { if (err.name !== 'AbortError') reject(err); });
+  });
+}
+
+/* ── Low-level NFC write ── */
+async function nfcWrite(dataObj) {
+  const ndef = new NDEFReader();
+  await ndef.write({ records: [{ recordType: 'text', data: JSON.stringify(dataObj), lang: 'it' }] });
+}
+
+/* ── Read card, transform, write back (card must stay in place) ── */
+function nfcReadWrite(transformFn) {
+  return new Promise((resolve, reject) => {
+    const ndef = new NDEFReader();
+    const ctrl = new AbortController();
+    ndef.scan({ signal: ctrl.signal })
+      .then(() => {
+        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura. Riprova.')), { once: true });
+        ndef.addEventListener('reading', async ({ message, serialNumber }) => {
+          // Do NOT abort scan before writing – keep tag in range
+          const original = parseNDEF(message);
+          try {
+            const updated = await transformFn(original, serialNumber);
+            // Write back; tag should still be in proximity
+            const writer = new NDEFReader();
+            await writer.write({ records: [{ recordType: 'text', data: JSON.stringify(updated), lang: 'it' }] });
+            ctrl.abort();
+            resolve({ original, updated });
+          } catch (err) {
+            ctrl.abort();
+            reject(err);
+          }
+        }, { once: true });
+      })
+      .catch(err => { if (err.name !== 'AbortError') reject(err); });
+  });
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 1 – MAIN
+══════════════════════════════════════════ */
+function mainRead() {
+  if (!nfcOk()) return;
+  hideMsg('main-msg');
+  prepareScanScreen('Avvicina la Carta', 'Porta il tag NFC vicino al telefono per continuare la partita', 'main-read');
+  S.scanRetryFn = mainRead;
+  go('s-scan');
+  doMainRead();
+}
+
+async function doMainRead() {
+  try {
+    const { data } = await nfcRead();
+    if (!data || !data.proprietario) {
+      showScanError('Carta vuota o non riconosciuta. Usa "Nuova Partita".');
+      return;
+    }
+    S.player = data;
+    showSecondary();
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+  }
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 2 – NEW GAME FORM → WRITE
+══════════════════════════════════════════ */
+async function newGameWrite() {
+  if (!nfcOk()) return;
+  const nome    = document.getElementById('f-nome').value.trim();
+  const cognome = document.getElementById('f-cognome').value.trim();
+  const importo = parseFloat(document.getElementById('f-importo').value);
+
+  if (!nome || !cognome) { showMsg('new-form-msg', 'error', 'Inserisci nome e cognome.'); return; }
+  if (isNaN(importo) || importo <= 0) { showMsg('new-form-msg', 'error', 'Importo non valido.'); return; }
+  hideMsg('new-form-msg');
+
+  const newData = { proprietario: nome + ' ' + cognome, importo, tx_verso: '', tx_quanto: 0, tx_dataora: '' };
+
+  prepareScanScreen('Scrivi Carta', 'Avvicina il tag NFC per salvare i dati del giocatore', 'new-game-write');
+  S.scanRetryFn = () => { /* do nothing on back */ };
+  go('s-scan');
+
+  try {
+    await nfcWrite(newData);
+    S.player = newData;
+    showSecondary();
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore scrittura.');
+    S.scanRetryFn = newGameWrite;
+  }
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 3 – GENERIC SCAN helpers
+══════════════════════════════════════════ */
+function prepareScanScreen(title, subtitle, _ctx) {
+  document.getElementById('scan-title').textContent = title;
+  document.getElementById('scan-sub').textContent   = subtitle;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+}
+
+function showScanError(msg) {
+  showMsg('scan-msg', 'error', '❌ ' + msg);
+  document.getElementById('scan-retry').style.display = 'block';
+}
+
+function scanRetry() {
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  if (S.scanRetryFn) S.scanRetryFn();
+}
+
+function cancelScan() { go('s-main'); }
+
+/* ══════════════════════════════════════════
+   SCREEN 4 – SECONDARY MENU
+══════════════════════════════════════════ */
+function showSecondary() {
+  const p = S.player;
+  if (!p) { go('s-main'); return; }
+  let txHtml = '';
+  if (p.tx_verso) {
+    txHtml = `<div class="chip-tx">
+      Ultima tx: <strong>${esc(p.tx_verso)}</strong> — ${fmtEur(p.tx_quanto)}<br>
+      ${fmtDate(p.tx_dataora)}
+    </div>`;
+  }
+  document.getElementById('player-chip').innerHTML = `
+    <div class="chip-name">${esc(p.proprietario)}</div>
+    <div class="chip-balance">${fmtEur(p.importo)} <span>saldo</span></div>
+    ${txHtml}
+  `;
+  go('s-secondary');
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 5 – LEGGI CARTA (secondary)
+══════════════════════════════════════════ */
+function secReadCard() {
+  if (!nfcOk()) return;
+  prepareScanScreen('Leggi Carta', 'Avvicina qualsiasi carta giocatore', 'read-other');
+  S.scanRetryFn = secReadCard;
+  go('s-scan');
+  doSecRead();
+}
+
+async function doSecRead() {
+  try {
+    const { data } = await nfcRead();
+    const el = document.getElementById('read-result');
+    if (!data || !data.proprietario) {
+      el.innerHTML = '<div class="msg msg-info" style="display:block;">Carta vuota o non inizializzata.</div>';
+    } else {
+      let rows = `
+        <div class="info-row"><span class="info-label">Proprietario</span><span class="info-value">${esc(data.proprietario)}</span></div>
+        <div class="info-row"><span class="info-label">Saldo</span><span class="info-value" style="color:var(--dark-green);">${fmtEur(data.importo)}</span></div>`;
+      if (data.tx_verso) {
+        rows += `
+        <div class="info-row"><span class="info-label">Ultima Tx con</span><span class="info-value">${esc(data.tx_verso)}</span></div>
+        <div class="info-row"><span class="info-label">Importo Tx</span><span class="info-value">${fmtEur(data.tx_quanto)}</span></div>
+        <div class="info-row"><span class="info-label">Data/Ora</span><span class="info-value">${fmtDate(data.tx_dataora)}</span></div>`;
+      } else {
+        rows += `<div class="info-row"><span class="info-label">Transazioni</span><span class="info-value" style="color:#aaa;">Nessuna</span></div>`;
+      }
+      el.innerHTML = rows;
+    }
+    go('s-read-result');
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+  }
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 6-9 – TRANSAZIONE
+══════════════════════════════════════════ */
+function confirmTxAmount() {
+  const amount = parseFloat(document.getElementById('tx-amount-input').value);
+  if (isNaN(amount) || amount <= 0) { showMsg('tx-amount-msg', 'error', 'Inserisci un importo valido.'); return; }
+  hideMsg('tx-amount-msg');
+  S.tx.amount = amount;
+  S.tx.sourceName = '';
+
+  // Show amount on source screen
+  document.getElementById('tx-amount-hero').innerHTML = `
+    <div class="label">Importo da ricevere</div>
+    <div class="value"><span class="currency">€</span> ${Number(amount).toLocaleString('it-IT', {minimumFractionDigits:2})}</div>
+  `;
+  hideMsg('tx-source-msg');
+  document.getElementById('tx-source-retry').style.display = 'none';
+  go('s-tx-source');
+  doTxSource();
+}
+
+async function doTxSource() {
+  const { amount } = S.tx;
+  const dest = S.player;
+  const msgEl = 'tx-source-msg';
+  const retryEl = document.getElementById('tx-source-retry');
+  hideMsg(msgEl);
+  retryEl.style.display = 'none';
+
+  try {
+    await nfcReadWrite((data) => {
+      if (!data || !data.proprietario)
+        throw new Error('Carta non valida o non inizializzata.');
+      if (data.proprietario === dest.proprietario)
+        throw new Error('Non puoi fare una transazione con te stesso.');
+      if (data.importo < amount)
+        throw new Error(`Saldo insufficiente: il giocatore ha solo ${fmtEur(data.importo)}.`);
+
+      S.tx.sourceName = data.proprietario;
+      return { ...data, importo: data.importo - amount, tx_verso: dest.proprietario, tx_quanto: amount, tx_dataora: new Date().toISOString() };
+    });
+
+    // Source OK → show and transition to dest scan
+    showMsg(msgEl, 'success', `✓ Prelevato ${fmtEur(amount)} da ${S.tx.sourceName}. Ora avvicina la tua carta.`);
+    document.getElementById('tx-source-ok').textContent = `✓ Prelevato ${fmtEur(amount)} da ${S.tx.sourceName}`;
+    hideMsg('tx-dest-msg');
+    document.getElementById('tx-dest-retry').style.display = 'none';
+
+    setTimeout(() => {
+      go('s-tx-dest');
+      doTxDest();
+    }, 1400);
+
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showMsg(msgEl, 'error', '❌ ' + (err.message || 'Errore NFC.'));
+    retryEl.style.display = 'block';
+  }
+}
+
+async function doTxDest() {
+  const { amount, sourceName } = S.tx;
+  const msgEl = 'tx-dest-msg';
+  const retryEl = document.getElementById('tx-dest-retry');
+  hideMsg(msgEl);
+  retryEl.style.display = 'none';
+
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      if (!data || !data.proprietario)
+        throw new Error('Carta non valida o non inizializzata.');
+      return { ...data, importo: data.importo + amount, tx_verso: sourceName, tx_quanto: amount, tx_dataora: new Date().toISOString() };
+    });
+
+    S.player = updated; // update in-memory state
+
+    showMsg(msgEl, 'success', `✓ Ricevuto ${fmtEur(amount)} da ${sourceName}.`);
+
+    setTimeout(() => {
+      document.getElementById('tx-done-info').innerHTML =
+        `Hai ricevuto <strong>${fmtEur(amount)}</strong> da <strong>${esc(sourceName)}</strong><br>
+         Nuovo saldo: <strong>${fmtEur(updated.importo)}</strong>`;
+      go('s-tx-done');
+    }, 1400);
+
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showMsg(msgEl, 'error', '❌ ' + (err.message || 'Errore NFC.'));
+    retryEl.style.display = 'block';
+  }
+}
+
+function cancelTx() { go('s-secondary'); }
+
+/* ══════════════════════════════════════════
+   SCREEN 10 – FINE PARTITA
+══════════════════════════════════════════ */
+function startEndGame() {
+  if (!nfcOk()) return;
+  hideMsg('end-msg');
+  document.getElementById('end-retry').style.display = 'none';
+  go('s-end');
+  doEndGame();
+}
+
+async function doEndGame() {
+  try {
+    await nfcWrite(emptyCard());
+    showMsg('end-msg', 'success', '✓ Carta cancellata con successo!');
+    S.player = null;
+    setTimeout(() => go('s-main'), 2000);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showMsg('end-msg', 'error', '❌ ' + (err.message || 'Errore NFC.'));
+    document.getElementById('end-retry').style.display = 'block';
+  }
+}
+
+/* ── Init ── */
+window.addEventListener('DOMContentLoaded', () => {
+  if (!('NDEFReader' in window))
+    document.getElementById('nfc-warn').style.display = 'block';
+});
+</script>
+</body>
+</html>
