@@ -6,10 +6,13 @@
   <title>Giorno di Paga</title>
   <style>
     :root {
-      --green:      #1a6b2a;
+      --green:      #1a7a30;
       --dark-green: #0d3d17;
       --gold:       #d4af37;
       --red:        #c0392b;
+      --orange:     #e67e22;
+      --blue:       #2196f3;
+      --purple:     #8e44ad;
       --cream:      #fffdf5;
       --text:       #1a1a1a;
       --muted:      #666;
@@ -21,191 +24,199 @@
       font-family: 'Segoe UI', Tahoma, sans-serif;
       background: var(--green);
       background-image:
-        repeating-linear-gradient(0deg,   transparent, transparent 40px, rgba(255,255,255,.025) 40px, rgba(255,255,255,.025) 41px),
-        repeating-linear-gradient(90deg,  transparent, transparent 40px, rgba(255,255,255,.025) 40px, rgba(255,255,255,.025) 41px);
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,.02) 40px, rgba(255,255,255,.02) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,.02) 40px, rgba(255,255,255,.02) 41px);
       min-height: 100vh;
       color: var(--text);
     }
 
-    /* ── screens ── */
-    .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 16px 40px; }
     .screen.active { display: flex; }
 
-    /* ── card container ── */
     .card {
       background: var(--cream);
       border-radius: 18px;
-      padding: 28px 24px;
+      padding: 22px 20px;
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
       box-shadow: 0 10px 40px var(--shadow);
       border: 1px solid rgba(212,175,55,.3);
+      margin-bottom: 12px;
     }
 
-    /* ── logo ── */
-    .logo { text-align: center; margin-bottom: 32px; }
+    /* Logo */
+    .logo { text-align: center; margin: 24px 0 28px; }
     .logo h1 {
-      font-size: 52px; font-weight: 900; line-height: 1;
+      font-size: 44px; font-weight: 900; line-height: 1;
       color: var(--gold);
       text-shadow: 3px 3px 0 var(--dark-green), -2px -2px 0 var(--dark-green);
-      letter-spacing: 4px;
+      letter-spacing: 3px;
     }
-    .logo p { color: rgba(255,255,255,.75); font-size: 13px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; }
+    .logo p { color: rgba(255,255,255,.75); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; }
 
-    /* ── buttons ── */
+    /* Buttons */
     .btn {
-      display: block; width: 100%; padding: 15px;
+      display: block; width: 100%; padding: 14px 10px;
       border: none; border-radius: 12px;
-      font-size: 17px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      font-size: 15px; font-weight: 700; letter-spacing: .3px;
       cursor: pointer; transition: transform .1s, box-shadow .1s;
-      margin-bottom: 12px;
+      margin-bottom: 10px; text-align: center;
     }
     .btn:last-child { margin-bottom: 0; }
     .btn:active { transform: translateY(2px); }
+    .btn:disabled { opacity: .4; cursor: default; transform: none !important; }
 
     .btn-gold    { background: var(--gold);    color: var(--dark-green); box-shadow: 0 4px 0 #9a7d10; }
     .btn-gold:active { box-shadow: 0 2px 0 #9a7d10; }
-
-    .btn-outline { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
-
-    .btn-blue    { background: #2196f3; color: #fff; box-shadow: 0 4px 0 #1565c0; }
-    .btn-blue:active { box-shadow: 0 2px 0 #1565c0; }
-
-    .btn-red     { background: var(--red); color: #fff; box-shadow: 0 4px 0 #922b21; }
-    .btn-red:active { box-shadow: 0 2px 0 #922b21; }
-
     .btn-green   { background: #27ae60; color: #fff; box-shadow: 0 4px 0 #1a7a42; }
     .btn-green:active { box-shadow: 0 2px 0 #1a7a42; }
-
+    .btn-blue    { background: var(--blue); color: #fff; box-shadow: 0 4px 0 #1565c0; }
+    .btn-blue:active { box-shadow: 0 2px 0 #1565c0; }
+    .btn-red     { background: var(--red); color: #fff; box-shadow: 0 4px 0 #922b21; }
+    .btn-red:active { box-shadow: 0 2px 0 #922b21; }
+    .btn-orange  { background: var(--orange); color: #fff; box-shadow: 0 4px 0 #b7590d; }
+    .btn-orange:active { box-shadow: 0 2px 0 #b7590d; }
+    .btn-purple  { background: var(--purple); color: #fff; box-shadow: 0 4px 0 #5b2c6f; }
+    .btn-purple:active { box-shadow: 0 2px 0 #5b2c6f; }
+    .btn-outline { background: transparent; border: 2px solid currentColor; }
     .btn-back {
       background: transparent; border: none; cursor: pointer;
-      color: rgba(255,255,255,.65); font-size: 14px; text-decoration: underline;
-      padding: 8px 0; margin-bottom: 12px; align-self: flex-start;
+      color: rgba(255,255,255,.7); font-size: 14px; text-decoration: underline;
+      padding: 8px 0; margin-bottom: 10px; align-self: flex-start;
     }
+    .btn-sm { padding: 10px; font-size: 13px; margin-bottom: 8px; }
 
-    /* ── forms ── */
-    .form-group { margin-bottom: 16px; }
-    .form-group label {
-      display: block; font-size: 12px; font-weight: 700; color: var(--muted);
-      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
-    }
-    .form-group input {
-      width: 100%; padding: 13px 14px; border: 2px solid #ddd; border-radius: 10px;
+    /* Grid for buttons */
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .btn-grid .btn { margin-bottom: 0; }
+
+    /* Forms */
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 12px 13px; border: 2px solid #ddd; border-radius: 10px;
       font-size: 16px; color: var(--text); background: #fff;
       transition: border-color .2s;
     }
-    .form-group input:focus { outline: none; border-color: var(--gold); }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--gold); }
 
-    /* ── NFC animation ── */
-    .nfc-wrap { text-align: center; padding: 32px 0 24px; }
-    .nfc-icon { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
-    .nfc-ring {
-      position: absolute; border-radius: 50%; border: 3px solid var(--gold);
-      animation: pulse 1.6s ease-out infinite;
-    }
-    .nfc-ring:nth-child(1) { width: 36px; height: 36px; top: 32px; left: 32px; animation-delay: 0s; }
-    .nfc-ring:nth-child(2) { width: 62px; height: 62px; top: 19px; left: 19px; animation-delay: .35s; }
-    .nfc-ring:nth-child(3) { width: 90px; height: 90px; top:  5px; left:  5px; animation-delay: .7s; }
-    .nfc-center { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); top: 39px; left: 39px; }
+    /* NFC scan */
+    .nfc-wrap { text-align: center; padding: 24px 0 16px; }
+    .nfc-icon { position: relative; width: 90px; height: 90px; margin: 0 auto 16px; }
+    .nfc-ring { position: absolute; border-radius: 50%; border: 3px solid var(--gold); animation: pulse 1.6s ease-out infinite; }
+    .nfc-ring:nth-child(1) { width: 32px; height: 32px; top: 29px; left: 29px; animation-delay: 0s; }
+    .nfc-ring:nth-child(2) { width: 56px; height: 56px; top: 17px; left: 17px; animation-delay: .35s; }
+    .nfc-ring:nth-child(3) { width: 80px; height: 80px; top: 5px; left: 5px; animation-delay: .7s; }
+    .nfc-center { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); top: 35px; left: 35px; }
     @keyframes pulse { 0% { opacity: 1; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.15); } }
+    .scan-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .scan-subtitle { font-size: 13px; color: rgba(255,255,255,.7); line-height: 1.55; }
 
-    .scan-title    { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-    .scan-subtitle { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.55; }
-
-    /* ── player chip ── */
+    /* Player chip */
     .player-chip {
       background: linear-gradient(135deg, var(--dark-green), #1e7a34);
       border: 2px solid var(--gold); border-radius: 14px;
-      padding: 18px 20px; color: #fff;
-      width: 100%; max-width: 420px; margin-bottom: 14px;
+      padding: 14px 18px; color: #fff;
+      width: 100%; max-width: 480px; margin-bottom: 12px;
     }
-    .chip-name    { font-size: 22px; font-weight: 800; color: var(--gold); }
-    .chip-balance { font-size: 34px; font-weight: 900; margin: 6px 0; }
-    .chip-balance span { font-size: 18px; font-weight: 400; opacity: .7; }
-    .chip-tx { font-size: 12px; opacity: .65; border-top: 1px solid rgba(255,255,255,.2); padding-top: 8px; margin-top: 8px; line-height: 1.5; }
+    .chip-name    { font-size: 20px; font-weight: 800; color: var(--gold); }
+    .chip-balance { font-size: 30px; font-weight: 900; margin: 4px 0; }
+    .chip-balance span { font-size: 16px; font-weight: 400; opacity: .7; }
 
-    /* ── info rows ── */
-    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #eee; }
+    /* Info rows */
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #eee; }
     .info-row:last-child { border-bottom: none; }
     .info-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    .info-value { font-size: 15px; font-weight: 700; color: var(--text); text-align: right; max-width: 60%; word-break: break-word; }
+    .info-value { font-size: 14px; font-weight: 700; color: var(--text); text-align: right; max-width: 65%; word-break: break-word; }
 
-    /* ── step dots ── */
-    .steps { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-    .step  { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.25); }
-    .step.active { background: var(--gold); }
-    .step.done   { background: #27ae60; }
+    /* Messages */
+    .msg { padding: 10px 13px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-top: 12px; }
+    .msg-error   { background: rgba(192,57,43,.13); color: #e74c3c; border: 1px solid rgba(192,57,43,.3); }
+    .msg-success { background: rgba(39,174,96,.13);  color: #1e8449; border: 1px solid rgba(39,174,96,.3); }
+    .msg-info    { background: rgba(212,175,55,.13); color: #9a7d10; border: 1px solid rgba(212,175,55,.3); }
+    .msg-warn    { background: rgba(230,126,34,.13); color: #b7590d; border: 1px solid rgba(230,126,34,.3); }
 
-    /* ── status banners ── */
-    .msg { padding: 11px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 14px; display: none; }
-    .msg-error   { background: rgba(192,57,43,.15);   color: #e74c3c; border: 1px solid rgba(192,57,43,.35); }
-    .msg-success { background: rgba(39,174,96,.15);   color: #1e8449; border: 1px solid rgba(39,174,96,.35); }
-    .msg-info    { background: rgba(212,175,55,.15);  color: #9a7d10; border: 1px solid rgba(212,175,55,.35); }
+    /* Section title */
+    .screen-title { font-size: 20px; font-weight: 800; color: #fff; text-align: center; margin-bottom: 16px; }
+    .section-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
 
-    /* ── amount hero ── */
-    .amount-hero { text-align: center; margin-bottom: 4px; }
-    .amount-hero .label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    .amount-hero .value { font-size: 48px; font-weight: 900; color: var(--dark-green); line-height: 1.1; }
-    .amount-hero .currency { font-size: 24px; }
+    /* Divider */
+    hr.divider { border: none; border-top: 1px solid rgba(255,255,255,.15); margin: 10px 0; width: 100%; max-width: 480px; }
 
-    /* ── screen title ── */
-    .screen-title { font-size: 22px; font-weight: 800; color: #fff; text-align: center; margin-bottom: 20px; }
+    /* Amount hero */
+    .amount-hero { text-align: center; padding: 10px 0 6px; }
+    .amount-hero .ah-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .amount-hero .ah-value { font-size: 42px; font-weight: 900; color: var(--dark-green); line-height: 1; }
+    .amount-hero .ah-currency { font-size: 22px; }
 
-    /* ── divider ── */
-    hr.divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 14px 0; width: 100%; max-width: 420px; }
+    /* Jackpot display */
+    .jackpot-box {
+      background: linear-gradient(135deg, #7d1f1f, #c0392b);
+      border: 2px solid var(--gold); border-radius: 14px;
+      padding: 14px 18px; text-align: center; color: #fff;
+      width: 100%; max-width: 480px; margin-bottom: 12px;
+    }
+    .jackpot-box .jlabel { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
+    .jackpot-box .jvalue { font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1.1; }
 
-    /* ── not supported banner ── */
-    #nfc-warn { display: none; max-width: 420px; width: 100%; margin-top: 14px; }
+    #nfc-warn { display: none; max-width: 480px; width: 100%; margin-top: 12px; }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 1 – MAIN MENU
-════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     SCREEN: MAIN MENU
+═══════════════════════════════════════ -->
 <div id="s-main" class="screen active">
   <div class="logo">
     <h1>GIORNO<br>DI PAGA</h1>
-    <p>Gestione Tag NFC</p>
+    <p>Gestione Digitale NFC</p>
+  </div>
+  <div id="jackpot-display-main" class="jackpot-box" style="display:none;">
+    <div class="jlabel">🎰 Jackpot</div>
+    <div class="jvalue" id="jackpot-main-val"></div>
   </div>
   <div class="card">
-    <button class="btn btn-gold"    onclick="mainRead()">📱 Lettura (Continua Partita)</button>
-    <button class="btn btn-outline" onclick="go('s-new-form')">✨ Nuova Partita</button>
+    <div class="section-label">Gestisci Giocatore</div>
+    <button class="btn btn-gold" onclick="mainScanPlayer()">📱 Scansiona Carta Giocatore</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
+    <div class="section-label">Gestione Partita</div>
+    <button class="btn btn-blue" onclick="go('s-fine-mese')">📅 Fine Mese (stipendio tutti)</button>
+    <button class="btn btn-orange" onclick="showJackpot()">🎰 Jackpot</button>
+    <button class="btn btn-green" onclick="showLotteria()">🎲 Lotteria</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
+    <div class="section-label">Nuova Partita</div>
+    <button class="btn btn-outline" style="color:var(--dark-green); border-color:var(--dark-green);" onclick="go('s-new-player')">✨ Crea Carta Giocatore</button>
   </div>
-  <div id="main-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
-  <div id="nfc-warn" class="msg msg-info">⚠️ Web NFC non è supportato su questo browser.<br>Usa <strong>Chrome su Android</strong>.</div>
+  <div id="main-msg" class="msg msg-error" style="display:none; max-width:480px; width:100%;"></div>
+  <div id="nfc-warn" class="msg msg-info">&#x26A0;&#xFE0F; Web NFC non supportato. Usa <strong>Chrome su Android</strong>.</div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 2 – NUOVA PARTITA FORM
-════════════════════════════════════════════════ -->
-<div id="s-new-form" class="screen">
-  <button class="btn-back" onclick="go('s-main')">← Indietro</button>
-  <div class="screen-title">Nuova Partita</div>
+<!-- ═══════════════════════════════════════
+     SCREEN: CREA CARTA GIOCATORE
+═══════════════════════════════════════ -->
+<div id="s-new-player" class="screen">
+  <button class="btn-back" onclick="go('s-main')">&#x2190; Indietro</button>
+  <div class="screen-title">&#x2728; Nuova Carta Giocatore</div>
   <div class="card">
     <div class="form-group">
-      <label>Nome</label>
-      <input id="f-nome" type="text" placeholder="Mario" autocomplete="off" />
+      <label>Nome Giocatore</label>
+      <input id="np-nome" type="text" placeholder="Es. Mario Rossi" autocomplete="off" />
     </div>
     <div class="form-group">
-      <label>Cognome</label>
-      <input id="f-cognome" type="text" placeholder="Rossi" autocomplete="off" />
+      <label>Saldo Iniziale (&#x20AC;)</label>
+      <input id="np-importo" type="number" placeholder="1500" min="1" step="1" />
     </div>
-    <div class="form-group">
-      <label>Importo Iniziale (€)</label>
-      <input id="f-importo" type="number" placeholder="1500" min="1" step="1" />
-    </div>
-    <button class="btn btn-gold" onclick="newGameWrite()">Avanti → Scrivi Carta</button>
+    <button class="btn btn-gold" onclick="createPlayerCard()">Avanti &#x2192; Scrivi Carta NFC</button>
+    <div id="np-msg" class="msg msg-error" style="display:none;"></div>
   </div>
-  <div id="new-form-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 3 – GENERIC NFC SCAN
-     (used for: continua partita, nuova partita write, leggi carta)
-════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     SCREEN: SCANSIONE GENERICA
+═══════════════════════════════════════ -->
 <div id="s-scan" class="screen">
-  <button id="scan-back" class="btn-back" onclick="cancelScan()">← Annulla</button>
+  <button id="scan-back" class="btn-back" onclick="cancelScan()">&#x2190; Annulla</button>
   <div class="card" style="text-align:center;">
     <div class="nfc-wrap">
       <div class="nfc-icon" id="scan-icon">
@@ -214,77 +225,71 @@
         <div class="nfc-ring"></div>
         <div class="nfc-center"></div>
       </div>
-      <div class="scan-title"    id="scan-title">Avvicina la carta</div>
+      <div class="scan-title" id="scan-title">Avvicina la carta</div>
       <div class="scan-subtitle" id="scan-sub">Porta il tag NFC vicino al telefono</div>
     </div>
-    <div id="scan-msg" class="msg msg-error"></div>
-    <button id="scan-retry" class="btn btn-outline" onclick="scanRetry()" style="display:none; margin-top:14px;">Riprova</button>
+    <div id="scan-msg" class="msg" style="display:none;"></div>
+    <button id="scan-retry" class="btn btn-outline" onclick="scanRetry()" style="display:none; margin-top:12px; color:var(--gold); border-color:var(--gold);">Riprova</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 4 – SECONDARY MENU
-════════════════════════════════════════════════ -->
-<div id="s-secondary" class="screen">
+<!-- ═══════════════════════════════════════
+     SCREEN: MENU GIOCATORE
+═══════════════════════════════════════ -->
+<div id="s-player" class="screen">
+  <button class="btn-back" onclick="go('s-main')">&#x2190; Menu Principale</button>
   <div id="player-chip" class="player-chip"></div>
   <div class="card">
-    <button class="btn btn-gold"    onclick="secReadCard()">📖 Leggi Carta</button>
-    <button class="btn btn-blue"    onclick="go('s-tx-amount')">💰 Transazione (Ricevi Denaro)</button>
-    <button class="btn btn-green"   onclick="go('s-send-amount')">💸 Invia Denaro</button>
-    <button class="btn btn-outline" onclick="showFineMese()" style="color:#e67e22; border-color:#e67e22;">📅 Fine Mese</button>
-    <button class="btn btn-outline" onclick="showBankScreen()" style="color:#1565c0; border-color:#1565c0;">🏦 Banca</button>
-    <button class="btn btn-outline" onclick="showLoanScreen()" style="color:#6c3483; border-color:#6c3483;">📋 Prestiti</button>
-    <button class="btn btn-outline" onclick="showLottery()" style="color:var(--dark-green); border-color:var(--dark-green);">🎰 Lotteria</button>
-    <hr class="divider" style="margin:4px 0 12px;" />
-    <button class="btn btn-red"     onclick="startEndGame()">🚪 Fine Partita</button>
+    <div class="section-label" style="margin-bottom:10px;">Operazioni</div>
+    <div class="btn-grid">
+      <button class="btn btn-blue btn-sm" onclick="go('s-ricevi')">&#x1F4B0; Ricevi da Giocatore</button>
+      <button class="btn btn-green btn-sm" onclick="go('s-invia')">&#x1F4B8; Invia a Giocatore</button>
+      <button class="btn btn-outline btn-sm" style="color:#1565c0;border-color:#1565c0;" onclick="showBanca('recv')">&#x1F3E6; Incassa Banca</button>
+      <button class="btn btn-outline btn-sm" style="color:#c0392b;border-color:#c0392b;" onclick="showBanca('pay')">&#x1F3E6; Paga Banca</button>
+      <button class="btn btn-outline btn-sm" style="color:var(--purple);border-color:var(--purple);" onclick="showPrestito('take')">&#x1F4B3; Chiedi Prestito</button>
+      <button class="btn btn-outline btn-sm" style="color:var(--purple);border-color:var(--purple);" onclick="showPrestito('repay')">&#x1F504; Rimborsa Prestito</button>
+    </div>
+    <hr style="border:none;border-top:1px solid #eee;margin:10px 0;">
+    <button class="btn btn-gold btn-sm" onclick="secReadCard()">&#x1F4D6; Leggi Qualsiasi Carta</button>
+    <button class="btn btn-outline btn-sm" style="color:var(--dark-green);border-color:var(--dark-green);" onclick="go('s-mercatino')">&#x1F3EA; Mercatino</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:10px 0;">
+    <button class="btn btn-red btn-sm" onclick="startEndGame()">&#x1F6AA; Fine Partita (azzera carta)</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 5 – READ RESULT
-════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     SCREEN: LEGGI CARTA
+═══════════════════════════════════════ -->
 <div id="s-read-result" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">Dati Carta</div>
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div class="screen-title">&#x1F4D6; Dati Carta</div>
   <div class="card">
     <div id="read-result"></div>
-    <button class="btn btn-gold" onclick="go('s-secondary')" style="margin-top:20px;">OK</button>
+    <button class="btn btn-gold" onclick="go('s-player')" style="margin-top:16px;">OK</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 6 – TRANSAZIONE: IMPORTO
-════════════════════════════════════════════════ -->
-<div id="s-tx-amount" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">Transazione</div>
-  <div class="steps">
-    <div class="step active" id="dot1"></div>
-    <div class="step"        id="dot2"></div>
-    <div class="step"        id="dot3"></div>
-  </div>
+<!-- ═══════════════════════════════════════
+     SCREEN: RICEVI DENARO
+═══════════════════════════════════════ -->
+<div id="s-ricevi" class="screen">
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div class="screen-title">&#x1F4B0; Ricevi Denaro</div>
   <div class="card">
-    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Quanto vuoi <strong>ricevere</strong>?</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Quanti soldi vuoi <strong>ricevere</strong> da un altro giocatore?</p>
     <div class="form-group">
-      <label>Importo da Prelevare (€)</label>
-      <input id="tx-amount-input" type="number" placeholder="200" min="1" step="1" />
+      <label>Importo (&#x20AC;)</label>
+      <input id="ricevi-amount" type="number" placeholder="200" min="1" step="1" />
     </div>
-    <button class="btn btn-gold" onclick="confirmTxAmount()">Avanti</button>
+    <button class="btn btn-gold" onclick="confirmRicevi()">Avanti</button>
+    <div id="ricevi-msg" class="msg msg-error" style="display:none;"></div>
   </div>
-  <div id="tx-amount-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 7 – TRANSAZIONE: SCANSIONE CARTA PAGANTE
-════════════════════════════════════════════════ -->
-<div id="s-tx-source" class="screen">
-  <div class="steps">
-    <div class="step done"></div>
-    <div class="step active"></div>
-    <div class="step"></div>
-  </div>
-  <div class="card" style="text-align:center; max-width:420px;">
-    <div id="tx-amount-hero" class="amount-hero"></div>
+<!-- RICEVI step 2: scan pagante -->
+<div id="s-ricevi-source" class="screen">
+  <div class="card" style="text-align:center; max-width:480px;">
+    <div id="ricevi-amount-hero" class="amount-hero"></div>
     <div class="nfc-wrap">
       <div class="nfc-icon">
         <div class="nfc-ring" style="border-color:#e74c3c;"></div>
@@ -293,25 +298,18 @@
         <div class="nfc-center" style="background:#e74c3c;"></div>
       </div>
       <div class="scan-title" style="color:#fff;">Carta del Pagante</div>
-      <div class="scan-subtitle">Avvicina la carta di chi deve pagare<br><em>Tieni la carta ferma fino alla conferma</em></div>
+      <div class="scan-subtitle">Avvicina la carta di chi deve pagare<br><em>Tieni ferma fino alla conferma</em></div>
     </div>
-    <div id="tx-source-msg" class="msg"></div>
-    <button id="tx-source-retry" class="btn btn-outline" onclick="doTxSource()" style="display:none; margin-top:14px;">Riprova</button>
-    <button class="btn btn-red" onclick="cancelTx()" style="margin-top:10px;">Annulla</button>
+    <div id="ricevi-source-msg" class="msg" style="display:none;"></div>
+    <button id="ricevi-source-retry" class="btn btn-outline" onclick="doRiceviSource()" style="display:none; margin-top:12px; color:var(--gold); border-color:var(--gold);">Riprova</button>
+    <button class="btn btn-red" onclick="go('s-ricevi')" style="margin-top:10px;">Annulla</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 8 – TRANSAZIONE: SCANSIONE CARTA PROPRIA
-════════════════════════════════════════════════ -->
-<div id="s-tx-dest" class="screen">
-  <div class="steps">
-    <div class="step done"></div>
-    <div class="step done"></div>
-    <div class="step active"></div>
-  </div>
-  <div class="card" style="text-align:center; max-width:420px;">
-    <div id="tx-source-ok" style="background:rgba(39,174,96,.12); border:1px solid rgba(39,174,96,.3); border-radius:10px; padding:10px 14px; font-size:13px; color:#1e8449; margin-bottom:4px;"></div>
+<!-- RICEVI step 3: scan destinatario -->
+<div id="s-ricevi-dest" class="screen">
+  <div class="card" style="text-align:center; max-width:480px;">
+    <div id="ricevi-source-ok-banner" style="background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.3);border-radius:10px;padding:9px 13px;font-size:13px;color:#1e8449;margin-bottom:8px;"></div>
     <div class="nfc-wrap">
       <div class="nfc-icon">
         <div class="nfc-ring" style="border-color:#27ae60;"></div>
@@ -320,38 +318,167 @@
         <div class="nfc-center" style="background:#27ae60;"></div>
       </div>
       <div class="scan-title" style="color:#fff;">La Tua Carta</div>
-      <div class="scan-subtitle">Avvicina la tua carta per ricevere i fondi<br><em>Tieni la carta ferma fino alla conferma</em></div>
+      <div class="scan-subtitle">Avvicina la tua carta per ricevere i fondi<br><em>Tieni ferma fino alla conferma</em></div>
     </div>
-    <div id="tx-dest-msg" class="msg"></div>
-    <button id="tx-dest-retry" class="btn btn-outline" onclick="doTxDest()" style="display:none; margin-top:14px;">Riprova</button>
+    <div id="ricevi-dest-msg" class="msg" style="display:none;"></div>
+    <button id="ricevi-dest-retry" class="btn btn-outline" onclick="doRiceviDest()" style="display:none; margin-top:12px; color:var(--gold); border-color:var(--gold);">Riprova</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 9 – TRANSAZIONE COMPLETATA
-════════════════════════════════════════════════ -->
-<div id="s-tx-done" class="screen">
-  <div class="card" style="text-align:center; max-width:420px;">
-    <div style="font-size:64px; margin-bottom:12px;">✅</div>
-    <h2 style="font-size:22px; font-weight:800; margin-bottom:8px;">Transazione Completata</h2>
-    <div id="tx-done-info" style="color:var(--muted); font-size:14px; line-height:1.6; margin-bottom:22px;"></div>
-    <button class="btn btn-gold" onclick="showSecondary()">Torna al Menu</button>
+<!-- ═══════════════════════════════════════
+     SCREEN: INVIA DENARO
+═══════════════════════════════════════ -->
+<div id="s-invia" class="screen">
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div class="screen-title">&#x1F4B8; Invia Denaro</div>
+  <div class="card">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Quanti soldi vuoi <strong>inviare</strong> a un altro giocatore?</p>
+    <div class="form-group">
+      <label>Importo (&#x20AC;)</label>
+      <input id="invia-amount" type="number" placeholder="200" min="1" step="1" />
+    </div>
+    <button class="btn btn-gold" onclick="confirmInvia()">Avanti</button>
+    <div id="invia-msg" class="msg msg-error" style="display:none;"></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 10 – FINE PARTITA
-════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     SCREEN: BANCA
+═══════════════════════════════════════ -->
+<div id="s-banca" class="screen">
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div id="banca-title" class="screen-title">&#x1F3E6; Banca</div>
+  <div class="card">
+    <div class="form-group">
+      <label id="banca-amount-label">Importo (&#x20AC;)</label>
+      <input id="banca-amount" type="number" placeholder="200" min="1" step="1" />
+    </div>
+    <button class="btn btn-gold" onclick="confirmBanca()">Avanti &#x2192; Scansiona Carta</button>
+    <div id="banca-msg" class="msg msg-error" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: PRESTITO
+═══════════════════════════════════════ -->
+<div id="s-prestito" class="screen">
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div id="prestito-title" class="screen-title">&#x1F4B3; Prestito</div>
+  <div class="card">
+    <div id="prestito-debt-banner" style="margin-bottom:14px;"></div>
+    <div class="form-group">
+      <label id="prestito-label">Importo (&#x20AC;)</label>
+      <input id="prestito-amount" type="number" placeholder="500" min="1" step="1" />
+    </div>
+    <div id="prestito-interest-info" style="background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.3);border-radius:10px;padding:10px 13px;font-size:12px;color:#b7590d;margin-bottom:14px;">
+      &#x26A0;&#xFE0F; Interesse del <strong>10%</strong> dovuto alla banca al rimborso.<br>
+      Massimo prestito totale: <strong>&#x20AC; 4.000</strong>.
+    </div>
+    <button class="btn btn-gold" onclick="confirmPrestito()">Avanti &#x2192; Scansiona Carta</button>
+    <div id="prestito-msg" class="msg msg-error" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: MERCATINO
+═══════════════════════════════════════ -->
+<div id="s-mercatino" class="screen">
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Indietro</button>
+  <div class="screen-title">&#x1F3EA; Mercatino</div>
+  <div class="card">
+    <div style="background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);border-radius:10px;padding:10px 13px;font-size:12px;color:#9a7d10;margin-bottom:14px;">
+      &#x1F4CB; Al Mercatino puoi comprare e vendere con altri giocatori.<br>
+      La banca preleva il <strong>10% di tassa</strong> sul valore a carico del compratore.
+    </div>
+    <div class="form-group">
+      <label>Valore della Transazione (&#x20AC;)</label>
+      <input id="merc-amount" type="number" placeholder="300" min="1" step="1" />
+    </div>
+    <div class="form-group">
+      <label>Sei il...</label>
+      <select id="merc-dir">
+        <option value="buy">Compratore (pago venditore + 10% banca)</option>
+        <option value="sell">Venditore (ricevo dal compratore, 10% a suo carico)</option>
+      </select>
+    </div>
+    <button class="btn btn-gold" onclick="confirmMercatino()">Avanti</button>
+    <div id="merc-msg" class="msg msg-error" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: OPERAZIONE COMPLETATA
+═══════════════════════════════════════ -->
+<div id="s-done" class="screen">
+  <div class="card" style="text-align:center; max-width:480px;">
+    <div style="font-size:60px; margin-bottom:10px;">&#x2705;</div>
+    <h2 style="font-size:20px; font-weight:800; margin-bottom:8px;">Operazione Completata</h2>
+    <div id="done-info" style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:20px;"></div>
+    <button class="btn btn-gold" onclick="go('s-player')">Torna al Menu Giocatore</button>
+    <button class="btn btn-outline" style="color:var(--dark-green);border-color:var(--dark-green);" onclick="go('s-main')">Menu Principale</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: FINE MESE
+═══════════════════════════════════════ -->
+<div id="s-fine-mese" class="screen">
+  <button class="btn-back" onclick="go('s-main')">&#x2190; Menu Principale</button>
+  <div class="screen-title">&#x1F4C5; Fine Mese</div>
+  <div class="card">
+    <div style="background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);border-radius:12px;padding:12px 16px;margin-bottom:16px;text-align:center;">
+      <div style="font-size:12px;font-weight:700;color:#1e8449;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Stipendio mensile automatico</div>
+      <div style="font-size:38px;font-weight:900;color:#1e8449;">+ &#x20AC; 800</div>
+    </div>
+    <div class="form-group">
+      <label>Spese del Mese (&#x20AC;) &#x2014; 0 se nessuna</label>
+      <input id="fm-spese" type="number" placeholder="0" min="0" step="1" value="0" />
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Scansiona ogni carta giocatore una alla volta. Puoi ripetere per tutti i giocatori.</p>
+    <button class="btn btn-gold" onclick="confirmFineMese()">Scansiona Carta Giocatore</button>
+    <div id="fm-msg" class="msg msg-error" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: JACKPOT
+═══════════════════════════════════════ -->
+<div id="s-jackpot" class="screen">
+  <button class="btn-back" onclick="go('s-main')">&#x2190; Menu Principale</button>
+  <div class="screen-title">&#x1F3B0; Jackpot</div>
+  <div id="jackpot-info-box" class="jackpot-box">
+    <div class="jlabel">Montepremi attuale</div>
+    <div class="jvalue" id="jackpot-value-display">&#x20AC; 0</div>
+  </div>
+  <div class="card">
+    <div id="jackpot-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: LOTTERIA
+═══════════════════════════════════════ -->
+<div id="s-lotteria" class="screen">
+  <button class="btn-back" onclick="go('s-main')">&#x2190; Menu Principale</button>
+  <div class="screen-title">&#x1F3B2; Lotteria</div>
+  <div class="card">
+    <div id="lotteria-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN: FINE PARTITA
+═══════════════════════════════════════ -->
 <div id="s-end" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Annulla</button>
-  <div class="card" style="text-align:center; max-width:420px;">
-    <div style="font-size:50px; margin-bottom:12px;">⚠️</div>
-    <h2 style="font-size:20px; font-weight:800; color:var(--red); margin-bottom:8px;">Fine Partita</h2>
-    <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">
-      Tutti i dati sulla carta verranno <strong>cancellati</strong>.<br>
-      Avvicina la tua carta per confermare.
+  <button class="btn-back" onclick="go('s-player')">&#x2190; Annulla</button>
+  <div class="card" style="text-align:center; max-width:480px;">
+    <div style="font-size:48px; margin-bottom:10px;">&#x26A0;&#xFE0F;</div>
+    <h2 style="font-size:18px; font-weight:800; color:var(--red); margin-bottom:8px;">Azzera Carta</h2>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:18px;">
+      La carta di <strong id="end-player-name"></strong> verr&#xE0; azzerata.<br>
+      Avvicina la carta per confermare.
     </p>
-    <div class="nfc-wrap" style="padding:16px 0;">
+    <div class="nfc-wrap" style="padding:14px 0;">
       <div class="nfc-icon">
         <div class="nfc-ring" style="border-color:var(--red);"></div>
         <div class="nfc-ring" style="border-color:var(--red);"></div>
@@ -359,129 +486,45 @@
         <div class="nfc-center" style="background:var(--red);"></div>
       </div>
     </div>
-    <div id="end-msg" class="msg"></div>
-    <button id="end-retry" class="btn btn-red" onclick="doEndGame()" style="display:none; margin-top:14px;">Riprova</button>
+    <div id="end-msg" class="msg" style="display:none;"></div>
+    <button id="end-retry" class="btn btn-red" onclick="doEndGame()" style="display:none; margin-top:12px;">Riprova</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 11 – LOTTERIA
-════════════════════════════════════════════════ -->
-<div id="s-lottery" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">🎰 Lotteria</div>
-  <div class="card" style="max-width:420px; width:100%;">
-    <div id="lottery-info"></div>
-    <div id="lottery-msg" class="msg" style="display:none; margin-top:12px;"></div>
-    <div id="lottery-actions" style="margin-top:16px;"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     SCREEN 12 – INVIA DENARO: IMPORTO
-════════════════════════════════════════════════ -->
-<div id="s-send-amount" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">💸 Invia Denaro</div>
-  <div class="steps">
-    <div class="step active"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-  </div>
-  <div class="card">
-    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Quanto vuoi <strong>inviare</strong>?</p>
-    <div class="form-group">
-      <label>Importo da Inviare (€)</label>
-      <input id="send-amount-input" type="number" placeholder="200" min="1" step="1" />
-    </div>
-    <button class="btn btn-gold" onclick="confirmSendAmount()">Avanti</button>
-  </div>
-  <div id="send-amount-msg" class="msg msg-error" style="display:none; max-width:420px; width:100%;"></div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     SCREEN 13 – BANCA
-════════════════════════════════════════════════ -->
-<div id="s-bank" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">🏦 Banca</div>
-  <div class="card" style="max-width:420px; width:100%;">
-    <div class="form-group">
-      <label>Importo (€)</label>
-      <input id="bank-amount-input" type="number" placeholder="200" min="1" step="1" />
-    </div>
-    <div style="display:flex; gap:8px; margin-bottom:20px;">
-      <button id="bank-btn-recv" class="btn btn-green" onclick="setBankDir('recv')" style="flex:1; margin:0;">➕ Ricevi</button>
-      <button id="bank-btn-pay"  class="btn btn-red"   onclick="setBankDir('pay')"  style="flex:1; margin:0; opacity:.4;">➖ Paga</button>
-    </div>
-    <button class="btn btn-gold" onclick="confirmBankOp()">Avanti → Scansiona Carta</button>
-    <div id="bank-msg" class="msg msg-error" style="display:none; margin-top:12px;"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     SCREEN 14 – PRESTITI
-════════════════════════════════════════════════ -->
-<div id="s-loan" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">📋 Prestiti</div>
-  <div class="card" style="max-width:420px; width:100%;">
-    <div id="loan-debt-info" style="margin-bottom:16px;"></div>
-    <div class="form-group">
-      <label>Importo (€)</label>
-      <input id="loan-amount-input" type="number" placeholder="500" min="1" step="1" />
-    </div>
-    <div style="display:flex; gap:8px; margin-bottom:20px;">
-      <button id="loan-btn-take"  class="btn btn-blue"    onclick="setLoanType('take')"  style="flex:1; margin:0; font-size:14px;">💳 Chiedi Prestito</button>
-      <button id="loan-btn-repay" class="btn btn-outline" onclick="setLoanType('repay')" style="flex:1; margin:0; font-size:14px; color:#6c3483; border-color:#6c3483; opacity:.4;">🔄 Rimborsa</button>
-    </div>
-    <button class="btn btn-gold" onclick="confirmLoanOp()">Avanti → Scansiona Carta</button>
-    <div id="loan-msg" class="msg msg-error" style="display:none; margin-top:12px;"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     SCREEN 15 – FINE MESE
-════════════════════════════════════════════════ -->
-<div id="s-fine-mese" class="screen">
-  <button class="btn-back" onclick="go('s-secondary')">← Indietro</button>
-  <div class="screen-title">📅 Fine Mese</div>
-  <div class="card" style="max-width:420px; width:100%;">
-    <div style="background:rgba(230,126,34,.1); border:1px solid rgba(230,126,34,.35); border-radius:12px; padding:14px 16px; margin-bottom:20px; text-align:center;">
-      <div style="font-size:13px; color:#e67e22; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Stipendio</div>
-      <div style="font-size:40px; font-weight:900; color:#e67e22; line-height:1;">+ ₯ 800,00</div>
-    </div>
-    <div class="form-group">
-      <label>Spese da Pagare (€) — opzionale</label>
-      <input id="fine-mese-spese" type="number" placeholder="0" min="0" step="1" />
-    </div>
-    <button class="btn btn-gold" onclick="confirmFineMese()">Avanti → Scansiona Carta</button>
-    <div id="fine-mese-msg" class="msg msg-error" style="display:none; margin-top:12px;"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════  JAVASCRIPT  ════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
 <script>
 'use strict';
 
+/* ── Constants ── */
+const STIPENDIO      = 800;
+const MAX_PRESTITO   = 4000;
+const INTERESSE_RATE = 0.10;
+const TASSA_MERC     = 0.10;
+const JACKPOT_KEY    = 'gdp_jackpot';
+const LOTTERIA_KEY   = 'gdp_lotteria';
+
 /* ── App state ── */
 const S = {
-  player:   null,   // current player data object from card
-  tx:   { amount: 0, sourceName: '' },
-  send: { amount: 0 },
-  bank: { amount: 0, dir: 'recv' },
-  loan: { amount: 0, type: 'take' },
-  fine: { spese: 0 },
-  scanRetryFn: null,
+  player:         null,
+  scanRetryFn:    null,
   scanCancelDest: 's-main',
+  ricevi:  { amount: 0, sourceName: '' },
+  invia:   { amount: 0 },
+  banca:   { amount: 0, dir: 'recv' },
+  prestito:{ amount: 0, type: 'take' },
+  merc:    { amount: 0, dir: 'buy', counterpartName: '' },
+  fineMese:{ spese: 0 },
+  _jpAmount: 0,
 };
 
-/* ── Data schema helpers ── */
+/* ── Schema ── */
 function emptyCard() {
-  return { proprietario: '', importo: 0, tx_verso: '', tx_quanto: 0, tx_dataora: '', prestiti: 0 };
+  return { nome: '', saldo: 0, debito: 0, tx_desc: '', tx_delta: 0, tx_ts: '' };
 }
 
-/* ── Utility ── */
+/* ── Utilities ── */
 function go(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -489,37 +532,40 @@ function go(id) {
 
 function esc(str) {
   if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function fmtEur(n) {
-  return '€\u202f' + Number(n).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function eur(n) {
+  return '\u20AC\u202f' + Number(n).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-function fmtEurSigned(n) {
-  const sign = n >= 0 ? '+' : '-';
-  return sign + '\u202f' + fmtEur(Math.abs(n));
+function eurSigned(n) {
+  return (n >= 0 ? '+' : '\u2212') + '\u202f' + eur(Math.abs(n));
 }
 
 function fmtDate(iso) {
-  if (!iso) return 'N/D';
+  if (!iso) return '';
   try {
     const d = new Date(iso);
     return d.toLocaleDateString('it-IT') + ' ' + d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-  } catch { return 'N/D'; }
+  } catch { return ''; }
 }
 
 function showMsg(id, type, text) {
   const el = document.getElementById(id);
+  if (!el) return;
   el.className = 'msg msg-' + type;
-  el.textContent = text;
+  el.innerHTML = text;
   el.style.display = 'block';
 }
-function hideMsg(id) { const el = document.getElementById(id); el.style.display = 'none'; }
+function hideMsg(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
 
-/* ── NFC support check ── */
+function now() { return new Date().toISOString(); }
+
+function validateCard(data) {
+  if (!data || !data.nome) throw new Error('Carta non valida o non inizializzata.');
+}
+
 function nfcOk() {
   if (!('NDEFReader' in window)) {
     document.getElementById('nfc-warn').style.display = 'block';
@@ -528,143 +574,72 @@ function nfcOk() {
   return true;
 }
 
-/* ── Parse NDEF message → object ── */
+/* ── NFC ── */
 function parseNDEF(message) {
-  for (const record of message.records) {
-    if (record.recordType === 'text') {
+  for (const rec of message.records) {
+    if (rec.recordType === 'text') {
       try {
-        const dec = new TextDecoder(record.encoding || 'utf-8');
-        return JSON.parse(dec.decode(record.data));
-      } catch { /* skip malformed */ }
+        const dec = new TextDecoder(rec.encoding || 'utf-8');
+        return JSON.parse(dec.decode(rec.data));
+      } catch { /* skip */ }
     }
   }
   return null;
 }
 
-/* ── Low-level NFC read (one-shot) ── */
 function nfcRead() {
   return new Promise((resolve, reject) => {
-    const ndef = new NDEFReader();
-    const ctrl = new AbortController();
+    const ndef = new NDEFReader(), ctrl = new AbortController();
     ndef.scan({ signal: ctrl.signal })
       .then(() => {
-        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura. Riprova.')), { once: true });
-        ndef.addEventListener('reading', ({ message, serialNumber }) => {
-          ctrl.abort();
-          resolve({ data: parseNDEF(message), serialNumber });
-        }, { once: true });
+        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura NFC.')), { once: true });
+        ndef.addEventListener('reading', ({ message }) => { ctrl.abort(); resolve(parseNDEF(message)); }, { once: true });
       })
       .catch(err => { if (err.name !== 'AbortError') reject(err); });
   });
 }
 
-/* ── Low-level NFC write ── */
-async function nfcWrite(dataObj) {
+function nfcWrite(dataObj) {
   const ndef = new NDEFReader();
-  await ndef.write({ records: [{ recordType: 'text', data: JSON.stringify(dataObj), lang: 'it' }] });
+  return ndef.write({ records: [{ recordType: 'text', data: JSON.stringify(dataObj), lang: 'it' }] });
 }
 
-/* ── Read card, transform, write back (card must stay in place) ── */
 function nfcReadWrite(transformFn) {
   return new Promise((resolve, reject) => {
-    const ndef = new NDEFReader();
-    const ctrl = new AbortController();
+    const ndef = new NDEFReader(), ctrl = new AbortController();
     ndef.scan({ signal: ctrl.signal })
       .then(() => {
-        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura. Riprova.')), { once: true });
-        ndef.addEventListener('reading', async ({ message, serialNumber }) => {
-          // Do NOT abort scan before writing – keep tag in range
+        ndef.addEventListener('readingerror', () => reject(new Error('Errore lettura NFC.')), { once: true });
+        ndef.addEventListener('reading', async ({ message }) => {
           const original = parseNDEF(message);
           try {
-            const updated = await transformFn(original, serialNumber);
-            // Write back; tag should still be in proximity
-            const writer = new NDEFReader();
+            const updated = await transformFn(original);
+            const writer  = new NDEFReader();
             await writer.write({ records: [{ recordType: 'text', data: JSON.stringify(updated), lang: 'it' }] });
             ctrl.abort();
             resolve({ original, updated });
-          } catch (err) {
-            ctrl.abort();
-            reject(err);
-          }
+          } catch (err) { ctrl.abort(); reject(err); }
         }, { once: true });
       })
       .catch(err => { if (err.name !== 'AbortError') reject(err); });
   });
 }
 
-/* ══════════════════════════════════════════
-   SCREEN 1 – MAIN
-══════════════════════════════════════════ */
-function mainRead() {
-  if (!nfcOk()) return;
-  hideMsg('main-msg');
-  prepareScanScreen('Avvicina la Carta', 'Porta il tag NFC vicino al telefono per continuare la partita', 'main-read');
-  S.scanRetryFn = mainRead;
-  go('s-scan');
-  doMainRead();
-}
-
-async function doMainRead() {
-  try {
-    const { data } = await nfcRead();
-    if (!data || !data.proprietario) {
-      showScanError('Carta vuota o non riconosciuta. Usa "Nuova Partita".');
-      return;
-    }
-    S.player = data;
-    showSecondary();
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-  }
-}
-
-/* ══════════════════════════════════════════
-   SCREEN 2 – NEW GAME FORM → WRITE
-══════════════════════════════════════════ */
-async function newGameWrite() {
-  if (!nfcOk()) return;
-  const nome    = document.getElementById('f-nome').value.trim();
-  const cognome = document.getElementById('f-cognome').value.trim();
-  const importo = parseFloat(document.getElementById('f-importo').value);
-
-  if (!nome || !cognome) { showMsg('new-form-msg', 'error', 'Inserisci nome e cognome.'); return; }
-  if (isNaN(importo) || importo <= 0) { showMsg('new-form-msg', 'error', 'Importo non valido.'); return; }
-  hideMsg('new-form-msg');
-
-  const newData = { proprietario: nome + ' ' + cognome, importo, tx_verso: '', tx_quanto: 0, tx_dataora: '' };
-
-  prepareScanScreen('Scrivi Carta', 'Avvicina il tag NFC per salvare i dati del giocatore', 'new-game-write');
-  S.scanRetryFn = () => { /* do nothing on back */ };
-  go('s-scan');
-
-  try {
-    await nfcWrite(newData);
-    S.player = newData;
-    showSecondary();
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore scrittura.');
-    S.scanRetryFn = newGameWrite;
-  }
-}
-
-/* ══════════════════════════════════════════
-   SCREEN 3 – GENERIC SCAN helpers
-══════════════════════════════════════════ */
-function prepareScanScreen(title, subtitle, _ctx, iconColor) {
+/* ── Scan screen helpers ── */
+function prepareScan(title, subtitle, color) {
   document.getElementById('scan-title').textContent = title;
-  document.getElementById('scan-sub').textContent   = subtitle;
+  document.getElementById('scan-sub').textContent = subtitle;
   hideMsg('scan-msg');
   document.getElementById('scan-retry').style.display = 'none';
-  const rc = iconColor ? ` style="border-color:${iconColor};"` : '';
-  const cc = iconColor ? ` style="background:${iconColor};"` : '';
+  document.getElementById('scan-retry').textContent = 'Riprova';
+  const rc = color ? ` style="border-color:${color};"` : '';
+  const cc = color ? ` style="background:${color};"` : '';
   document.getElementById('scan-icon').innerHTML =
     `<div class="nfc-ring"${rc}></div><div class="nfc-ring"${rc}></div><div class="nfc-ring"${rc}></div><div class="nfc-center"${cc}></div>`;
 }
 
 function showScanError(msg) {
-  showMsg('scan-msg', 'error', '❌ ' + msg);
+  showMsg('scan-msg', 'error', '&#x274C; ' + msg);
   document.getElementById('scan-retry').style.display = 'block';
 }
 
@@ -674,62 +649,121 @@ function scanRetry() {
   if (S.scanRetryFn) S.scanRetryFn();
 }
 
-function cancelScan() { const dest = S.scanCancelDest || 's-main'; S.scanCancelDest = 's-main'; go(dest); }
-
-/* ══════════════════════════════════════════
-   SCREEN 4 – SECONDARY MENU
-══════════════════════════════════════════ */
-function showSecondary() {
-  const p = S.player;
-  if (!p) { go('s-main'); return; }
-  let txHtml = '';
-  if (p.tx_verso) {
-    txHtml = `<div class="chip-tx">
-      Ultima tx: <strong>${esc(p.tx_verso)}</strong> — ${fmtEurSigned(p.tx_quanto)}<br>
-      ${fmtDate(p.tx_dataora)}
-    </div>`;
-  }
-  const debt = p.prestiti || 0;
-  const debtHtml = debt > 0 ? `<div style="background:rgba(192,57,43,.2); border-radius:6px; padding:5px 10px; font-size:12px; color:#c0392b; margin-top:6px;">⚠️ Debito: <strong>${fmtEur(debt)}</strong></div>` : '';
-  document.getElementById('player-chip').innerHTML = `
-    <div class="chip-name">${esc(p.proprietario)}</div>
-    <div class="chip-balance">${fmtEur(p.importo)} <span>saldo</span></div>
-    ${txHtml}${debtHtml}
-  `;
-  go('s-secondary');
+function cancelScan() {
+  const dest = S.scanCancelDest || 's-main';
+  S.scanCancelDest = 's-main';
+  go(dest);
 }
 
-/* ══════════════════════════════════════════
-   SCREEN 5 – LEGGI CARTA (secondary)
-══════════════════════════════════════════ */
+/* ── Player chip ── */
+function renderPlayerChip(p) {
+  const debt = p.debito || 0;
+  const debtHtml = debt > 0
+    ? `<div style="color:#e74c3c;font-size:12px;margin-top:4px;">&#x26A0;&#xFE0F; Debito: <strong>${eur(debt)}</strong> (interessi: ${eur(Math.round(debt * INTERESSE_RATE))})</div>`
+    : '';
+  const txHtml = p.tx_desc
+    ? `<div style="font-size:12px;opacity:.7;margin-top:4px;">Ultima: ${esc(p.tx_desc)} <strong>${eurSigned(p.tx_delta)}</strong> &middot; ${fmtDate(p.tx_ts)}</div>`
+    : '';
+  document.getElementById('player-chip').innerHTML = `
+    <div class="chip-name">${esc(p.nome)}</div>
+    <div class="chip-balance">${eur(p.saldo)} <span>saldo</span></div>
+    ${debtHtml}${txHtml}`;
+}
+
+function showDone(html) {
+  document.getElementById('done-info').innerHTML = html;
+  go('s-done');
+}
+
+/* ═══════════════════════════════════════
+   MAIN: SCAN PLAYER
+═══════════════════════════════════════ */
+function mainScanPlayer() {
+  if (!nfcOk()) return;
+  prepareScan('Avvicina la Carta', 'Scansiona la carta NFC del giocatore', null);
+  S.scanRetryFn    = mainScanPlayer;
+  S.scanCancelDest = 's-main';
+  go('s-scan');
+  doMainScan();
+}
+
+async function doMainScan() {
+  try {
+    const data = await nfcRead();
+    if (!data || !data.nome) {
+      showScanError('Carta vuota o non riconosciuta. Crea prima una carta giocatore.');
+      return;
+    }
+    S.player = data;
+    renderPlayerChip(data);
+    go('s-player');
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+  }
+}
+
+/* ═══════════════════════════════════════
+   CREA CARTA GIOCATORE
+═══════════════════════════════════════ */
+async function createPlayerCard() {
+  if (!nfcOk()) return;
+  const nome  = document.getElementById('np-nome').value.trim();
+  const saldo = parseFloat(document.getElementById('np-importo').value);
+  if (!nome)                    { showMsg('np-msg','error','Inserisci un nome.'); return; }
+  if (isNaN(saldo) || saldo < 0){ showMsg('np-msg','error','Importo non valido.'); return; }
+  hideMsg('np-msg');
+  const card = { nome, saldo, debito: 0, tx_desc: '', tx_delta: 0, tx_ts: '' };
+  prepareScan('Scrivi Carta', `Avvicina il tag NFC \u2014 ${nome} (${eur(saldo)})`, null);
+  S.scanCancelDest = 's-new-player';
+  go('s-scan');
+  try {
+    await nfcWrite(card);
+    S.player = card;
+    renderPlayerChip(card);
+    document.getElementById('scan-icon').innerHTML = '<div style="font-size:60px;line-height:1;margin-top:8px;">&#x2705;</div>';
+    document.getElementById('scan-title').textContent = 'Carta Scritta!';
+    document.getElementById('scan-sub').textContent   = `${nome} \u00e8 pronto a giocare.`;
+    setTimeout(() => go('s-player'), 1800);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore scrittura NFC.');
+    S.scanRetryFn = createPlayerCard;
+  }
+}
+
+/* ═══════════════════════════════════════
+   LEGGI CARTA
+═══════════════════════════════════════ */
 function secReadCard() {
   if (!nfcOk()) return;
-  prepareScanScreen('Leggi Carta', 'Avvicina qualsiasi carta giocatore', 'read-other');
-  S.scanRetryFn = secReadCard;
+  prepareScan('Leggi Carta', 'Avvicina qualsiasi carta giocatore', null);
+  S.scanRetryFn    = secReadCard;
+  S.scanCancelDest = 's-player';
   go('s-scan');
   doSecRead();
 }
 
 async function doSecRead() {
   try {
-    const { data } = await nfcRead();
+    const data = await nfcRead();
     const el = document.getElementById('read-result');
-    if (!data || !data.proprietario) {
+    if (!data || !data.nome) {
       el.innerHTML = '<div class="msg msg-info" style="display:block;">Carta vuota o non inizializzata.</div>';
     } else {
+      const debt = data.debito || 0;
       let rows = `
-        <div class="info-row"><span class="info-label">Proprietario</span><span class="info-value">${esc(data.proprietario)}</span></div>
-        <div class="info-row"><span class="info-label">Saldo</span><span class="info-value" style="color:var(--dark-green);">${fmtEur(data.importo)}</span></div>`;
-      if ((data.prestiti || 0) > 0) {
-        rows += `<div class="info-row"><span class="info-label">Debito</span><span class="info-value" style="color:#c0392b;">${fmtEur(data.prestiti)}</span></div>`;
+        <div class="info-row"><span class="info-label">Nome</span><span class="info-value">${esc(data.nome)}</span></div>
+        <div class="info-row"><span class="info-label">Saldo</span><span class="info-value" style="color:var(--dark-green);">${eur(data.saldo)}</span></div>`;
+      if (debt > 0) {
+        rows += `<div class="info-row"><span class="info-label">Debito</span><span class="info-value" style="color:#c0392b;">${eur(debt)}</span></div>`;
+        rows += `<div class="info-row"><span class="info-label">Interessi</span><span class="info-value" style="color:#e67e22;">${eur(Math.round(debt * INTERESSE_RATE))}</span></div>`;
+        rows += `<div class="info-row"><span class="info-label">Totale dovuto</span><span class="info-value" style="color:#c0392b;font-size:15px;">${eur(debt + Math.round(debt * INTERESSE_RATE))}</span></div>`;
       }
-      if (data.tx_verso) {
-        rows += `
-        <div class="info-row"><span class="info-label">Ultima Tx con</span><span class="info-value">${esc(data.tx_verso)}</span></div>
-        <div class="info-row"><span class="info-label">Importo Tx</span><span class="info-value">${fmtEurSigned(data.tx_quanto)}</span></div>
-        <div class="info-row"><span class="info-label">Data/Ora</span><span class="info-value">${fmtDate(data.tx_dataora)}</span></div>`;
-      } else {
-        rows += `<div class="info-row"><span class="info-label">Transazioni</span><span class="info-value" style="color:#aaa;">Nessuna</span></div>`;
+      if (data.tx_desc) {
+        rows += `<div class="info-row"><span class="info-label">Ultima Tx</span><span class="info-value">${esc(data.tx_desc)}</span></div>`;
+        rows += `<div class="info-row"><span class="info-label">Importo Tx</span><span class="info-value">${eurSigned(data.tx_delta)}</span></div>`;
+        rows += `<div class="info-row"><span class="info-label">Data/Ora</span><span class="info-value">${fmtDate(data.tx_ts)}</span></div>`;
       }
       el.innerHTML = rows;
     }
@@ -740,122 +774,355 @@ async function doSecRead() {
   }
 }
 
-/* ══════════════════════════════════════════
-   SCREEN 6-9 – TRANSAZIONE
-══════════════════════════════════════════ */
-function confirmTxAmount() {
-  const amount = parseFloat(document.getElementById('tx-amount-input').value);
-  if (isNaN(amount) || amount <= 0) { showMsg('tx-amount-msg', 'error', 'Inserisci un importo valido.'); return; }
-  hideMsg('tx-amount-msg');
-  S.tx.amount = amount;
-  S.tx.sourceName = '';
-
-  // Show amount on source screen
-  document.getElementById('tx-amount-hero').innerHTML = `
-    <div class="label">Importo da ricevere</div>
-    <div class="value"><span class="currency">€</span> ${Number(amount).toLocaleString('it-IT', {minimumFractionDigits:2})}</div>
-  `;
-  hideMsg('tx-source-msg');
-  document.getElementById('tx-source-retry').style.display = 'none';
-  go('s-tx-source');
-  doTxSource();
+/* ═══════════════════════════════════════
+   RICEVI DENARO (2 step)
+═══════════════════════════════════════ */
+function confirmRicevi() {
+  const amount = parseFloat(document.getElementById('ricevi-amount').value);
+  if (isNaN(amount) || amount <= 0) { showMsg('ricevi-msg','error','Importo non valido.'); return; }
+  hideMsg('ricevi-msg');
+  S.ricevi.amount = amount;
+  S.ricevi.sourceName = '';
+  document.getElementById('ricevi-amount-hero').innerHTML = `
+    <div class="ah-label">Importo da ricevere</div>
+    <div class="ah-value"><span class="ah-currency">&#x20AC;</span> ${Number(amount).toLocaleString('it-IT',{minimumFractionDigits:2})}</div>`;
+  hideMsg('ricevi-source-msg');
+  document.getElementById('ricevi-source-retry').style.display = 'none';
+  go('s-ricevi-source');
+  doRiceviSource();
 }
 
-async function doTxSource() {
-  const { amount } = S.tx;
+async function doRiceviSource() {
+  const { amount } = S.ricevi;
   const dest = S.player;
-  const msgEl = 'tx-source-msg';
-  const retryEl = document.getElementById('tx-source-retry');
-  hideMsg(msgEl);
-  retryEl.style.display = 'none';
-
+  hideMsg('ricevi-source-msg');
+  document.getElementById('ricevi-source-retry').style.display = 'none';
   try {
     await nfcReadWrite((data) => {
-      if (!data || !data.proprietario)
-        throw new Error('Carta non valida o non inizializzata.');
-      if (data.proprietario === dest.proprietario)
-        throw new Error('Non puoi fare una transazione con te stesso.');
-      if (data.importo < amount)
-        throw new Error(`Saldo insufficiente: il giocatore ha solo ${fmtEur(data.importo)}.`);
-
-      S.tx.sourceName = data.proprietario;
-      return { ...data, importo: data.importo - amount, tx_verso: dest.proprietario, tx_quanto: -amount, tx_dataora: new Date().toISOString() };
+      validateCard(data);
+      if (data.nome === dest.nome) throw new Error('Non puoi fare una transazione con te stesso.');
+      if (data.saldo < amount) throw new Error(`Saldo insufficiente: ${data.nome} ha solo ${eur(data.saldo)}.`);
+      S.ricevi.sourceName = data.nome;
+      return { ...data, saldo: data.saldo - amount, tx_desc: `\u2192 ${dest.nome}`, tx_delta: -amount, tx_ts: now() };
     });
-
-    // Source OK → show and transition to dest scan
-    showMsg(msgEl, 'success', `✓ Prelevato ${fmtEur(amount)} da ${S.tx.sourceName}. Ora avvicina la tua carta.`);
-    document.getElementById('tx-source-ok').textContent = `✓ Prelevato ${fmtEur(amount)} da ${S.tx.sourceName}`;
-    hideMsg('tx-dest-msg');
-    document.getElementById('tx-dest-retry').style.display = 'none';
-
-    setTimeout(() => {
-      go('s-tx-dest');
-      doTxDest();
-    }, 1400);
-
+    document.getElementById('ricevi-source-ok-banner').textContent = `\u2713 Prelevato ${eur(amount)} da ${S.ricevi.sourceName}. Ora avvicina la tua carta.`;
+    hideMsg('ricevi-dest-msg');
+    document.getElementById('ricevi-dest-retry').style.display = 'none';
+    setTimeout(() => { go('s-ricevi-dest'); doRiceviDest(); }, 1200);
   } catch (err) {
     if (err.name === 'AbortError') return;
-    showMsg(msgEl, 'error', '❌ ' + (err.message || 'Errore NFC.'));
-    retryEl.style.display = 'block';
+    showMsg('ricevi-source-msg','error','&#x274C; ' + (err.message || 'Errore NFC.'));
+    document.getElementById('ricevi-source-retry').style.display = 'block';
   }
 }
 
-async function doTxDest() {
-  const { amount, sourceName } = S.tx;
-  const msgEl = 'tx-dest-msg';
-  const retryEl = document.getElementById('tx-dest-retry');
-  hideMsg(msgEl);
-  retryEl.style.display = 'none';
-
+async function doRiceviDest() {
+  const { amount, sourceName } = S.ricevi;
+  hideMsg('ricevi-dest-msg');
+  document.getElementById('ricevi-dest-retry').style.display = 'none';
   try {
     const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario)
-        throw new Error('Carta non valida o non inizializzata.');
-      return { ...data, importo: data.importo + amount, tx_verso: sourceName, tx_quanto: amount, tx_dataora: new Date().toISOString() };
+      validateCard(data);
+      return { ...data, saldo: data.saldo + amount, tx_desc: `\u2190 ${sourceName}`, tx_delta: amount, tx_ts: now() };
     });
-
-    S.player = updated; // update in-memory state
-
-    showMsg(msgEl, 'success', `✓ Ricevuto ${fmtEur(amount)} da ${sourceName}.`);
-
-    setTimeout(() => {
-      document.getElementById('tx-done-info').innerHTML =
-        `Hai ricevuto <strong>${fmtEur(amount)}</strong> da <strong>${esc(sourceName)}</strong><br>
-         Nuovo saldo: <strong>${fmtEur(updated.importo)}</strong>`;
-      go('s-tx-done');
-    }, 1400);
-
+    S.player = updated;
+    renderPlayerChip(updated);
+    showDone(`<strong>${esc(updated.nome)}</strong> ha ricevuto <strong>${eur(amount)}</strong> da <strong>${esc(sourceName)}</strong><br>Nuovo saldo: <strong>${eur(updated.saldo)}</strong>`);
   } catch (err) {
     if (err.name === 'AbortError') return;
-    showMsg(msgEl, 'error', '❌ ' + (err.message || 'Errore NFC.'));
-    retryEl.style.display = 'block';
+    showMsg('ricevi-dest-msg','error','&#x274C; ' + (err.message || 'Errore NFC.'));
+    document.getElementById('ricevi-dest-retry').style.display = 'block';
   }
 }
 
-function cancelTx() { go('s-secondary'); }
-
-/* ══════════════════════════════════════════
-   FINE MESE
-══════════════════════════════════════════ */
-const STIPENDIO = 800;
-
-function showFineMese() {
-  document.getElementById('fine-mese-spese').value = '';
-  hideMsg('fine-mese-msg');
-  go('s-fine-mese');
+/* ═══════════════════════════════════════
+   INVIA DENARO (2 step)
+═══════════════════════════════════════ */
+function confirmInvia() {
+  const amount = parseFloat(document.getElementById('invia-amount').value);
+  if (isNaN(amount) || amount <= 0) { showMsg('invia-msg','error','Importo non valido.'); return; }
+  hideMsg('invia-msg');
+  S.invia.amount = amount;
+  prepareScan('La Tua Carta (Pagante)', `Avvicina la tua carta per inviare ${eur(amount)}`, '#e74c3c');
+  S.scanRetryFn    = doInviaMyScan;
+  S.scanCancelDest = 's-invia';
+  go('s-scan');
+  doInviaMyScan();
 }
 
+async function doInviaMyScan() {
+  const amount = S.invia.amount;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    await nfcReadWrite((data) => {
+      validateCard(data);
+      if (data.nome !== S.player.nome) throw new Error('Questa non \u00e8 la tua carta. Avvicina la tua carta.');
+      if (data.saldo < amount) throw new Error(`Saldo insufficiente: hai solo ${eur(data.saldo)}.`);
+      return { ...data, saldo: data.saldo - amount, tx_desc: '\u2192 Invio', tx_delta: -amount, tx_ts: now() };
+    });
+    prepareScan('Carta del Destinatario', `Avvicina la carta di chi riceve ${eur(amount)}`, '#27ae60');
+    S.scanRetryFn = doInviaReceiverScan;
+    doInviaReceiverScan();
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doInviaMyScan;
+  }
+}
+
+async function doInviaReceiverScan() {
+  const amount = S.invia.amount;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      if (data.nome === S.player.nome) throw new Error('Non puoi inviare denaro a te stesso.');
+      return { ...data, saldo: data.saldo + amount, tx_desc: `\u2190 ${S.player.nome}`, tx_delta: amount, tx_ts: now() };
+    });
+    showDone(`<strong>${esc(S.player.nome)}</strong> ha inviato <strong>${eur(amount)}</strong> a <strong>${esc(updated.nome)}</strong><br>Nuovo saldo destinatario: <strong>${eur(updated.saldo)}</strong>`);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doInviaReceiverScan;
+  }
+}
+
+/* ═══════════════════════════════════════
+   BANCA
+═══════════════════════════════════════ */
+function showBanca(dir) {
+  S.banca.dir = dir;
+  document.getElementById('banca-title').textContent       = dir === 'recv' ? '&#x1F3E6; Incassa dalla Banca' : '&#x1F3E6; Paga alla Banca';
+  document.getElementById('banca-amount-label').textContent = dir === 'recv' ? 'Importo da ricevere (&#x20AC;)' : 'Importo da pagare (&#x20AC;)';
+  document.getElementById('banca-amount').value = '';
+  hideMsg('banca-msg');
+  go('s-banca');
+}
+
+function confirmBanca() {
+  const amount = parseFloat(document.getElementById('banca-amount').value);
+  if (isNaN(amount) || amount <= 0) { showMsg('banca-msg','error','Importo non valido.'); return; }
+  hideMsg('banca-msg');
+  S.banca.amount = amount;
+  const { dir } = S.banca;
+  const color = dir === 'recv' ? '#27ae60' : '#e74c3c';
+  const label = dir === 'recv' ? `ricevere ${eur(amount)} dalla Banca` : `pagare ${eur(amount)} alla Banca`;
+  prepareScan('Scansiona Carta', `Avvicina la carta per ${label}`, color);
+  S.scanRetryFn    = doBancaScan;
+  S.scanCancelDest = 's-banca';
+  go('s-scan');
+  doBancaScan();
+}
+
+async function doBancaScan() {
+  const { amount, dir } = S.banca;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      if (dir === 'pay' && data.saldo < amount)
+        throw new Error(`Saldo insufficiente: ${data.nome} ha solo ${eur(data.saldo)}.`);
+      const delta = dir === 'recv' ? amount : -amount;
+      return { ...data, saldo: data.saldo + delta,
+               tx_desc: dir === 'recv' ? '\u2190 Banca' : '\u2192 Banca', tx_delta: delta, tx_ts: now() };
+    });
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    const verb = dir === 'recv' ? 'ha ricevuto' : 'ha pagato';
+    const prep = dir === 'recv' ? 'dalla' : 'alla';
+    showDone(`<strong>${esc(updated.nome)}</strong> ${verb} <strong>${eur(amount)}</strong> ${prep} Banca<br>Nuovo saldo: <strong>${eur(updated.saldo)}</strong>`);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doBancaScan;
+  }
+}
+
+/* ═══════════════════════════════════════
+   PRESTITI (10% interesse, max 4000)
+═══════════════════════════════════════ */
+function showPrestito(type) {
+  S.prestito.type = type;
+  const isTake = type === 'take';
+  document.getElementById('prestito-title').textContent       = isTake ? '&#x1F4B3; Chiedi Prestito' : '&#x1F504; Rimborsa Prestito';
+  document.getElementById('prestito-label').textContent       = isTake ? 'Importo Prestito (&#x20AC;)' : 'Importo da Rimborsare (&#x20AC;)';
+  document.getElementById('prestito-interest-info').style.display = isTake ? 'block' : 'none';
+  document.getElementById('prestito-amount').value = '';
+  hideMsg('prestito-msg');
+  const debt = (S.player && S.player.debito) || 0;
+  const banner = document.getElementById('prestito-debt-banner');
+  if (debt > 0) {
+    const interests = Math.round(debt * INTERESSE_RATE);
+    banner.innerHTML = `<div class="msg msg-warn">&#x26A0;&#xFE0F; Debito attuale: <strong>${eur(debt)}</strong><br>Interessi (10%): <strong>${eur(interests)}</strong><br>Totale dovuto: <strong>${eur(debt + interests)}</strong></div>`;
+  } else {
+    banner.innerHTML = '<div class="msg msg-success">&#x2713; Nessun debito attuale</div>';
+  }
+  go('s-prestito');
+}
+
+function confirmPrestito() {
+  const amount = parseFloat(document.getElementById('prestito-amount').value);
+  if (isNaN(amount) || amount <= 0) { showMsg('prestito-msg','error','Importo non valido.'); return; }
+  const debt = (S.player && S.player.debito) || 0;
+  const type = S.prestito.type;
+  if (type === 'take' && debt + amount > MAX_PRESTITO) {
+    showMsg('prestito-msg','error',`Limite superato. Debito attuale: ${eur(debt)}, massimo: ${eur(MAX_PRESTITO)}.`);
+    return;
+  }
+  hideMsg('prestito-msg');
+  S.prestito.amount = amount;
+  const color = type === 'take' ? '#2196f3' : '#8e44ad';
+  const label = type === 'take' ? `prestito di ${eur(amount)}` : `rimborso di ${eur(amount)}`;
+  prepareScan('Scansiona Carta', `Avvicina la carta per ${label}`, color);
+  S.scanRetryFn    = doPrestitoScan;
+  S.scanCancelDest = 's-prestito';
+  go('s-scan');
+  doPrestitoScan();
+}
+
+async function doPrestitoScan() {
+  const { amount, type } = S.prestito;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      const currentDebt = data.debito || 0;
+      if (type === 'take') {
+        if (currentDebt + amount > MAX_PRESTITO)
+          throw new Error(`Limite prestito superato. Debito: ${eur(currentDebt)}, massimo: ${eur(MAX_PRESTITO)}.`);
+        return { ...data, saldo: data.saldo + amount, debito: currentDebt + amount,
+                 tx_desc: 'Prestito', tx_delta: amount, tx_ts: now() };
+      } else {
+        if (data.saldo < amount) throw new Error(`Saldo insufficiente: ha solo ${eur(data.saldo)}.`);
+        return { ...data, saldo: data.saldo - amount, debito: Math.max(0, currentDebt - amount),
+                 tx_desc: 'Rimborso Prestito', tx_delta: -amount, tx_ts: now() };
+      }
+    });
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    const newDebt = updated.debito || 0;
+    const verb    = type === 'take' ? 'ha ricevuto un prestito di' : 'ha rimborsato';
+    showDone(`<strong>${esc(updated.nome)}</strong> ${verb} <strong>${eur(amount)}</strong><br>
+      Saldo: <strong>${eur(updated.saldo)}</strong><br>
+      Debito residuo: <strong style="color:${newDebt > 0 ? '#c0392b' : '#27ae60'};">${eur(newDebt)}</strong>`);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doPrestitoScan;
+  }
+}
+
+/* ═══════════════════════════════════════
+   MERCATINO (10% tassa)
+═══════════════════════════════════════ */
+function confirmMercatino() {
+  const amount = parseFloat(document.getElementById('merc-amount').value);
+  const dir    = document.getElementById('merc-dir').value;
+  if (isNaN(amount) || amount <= 0) { showMsg('merc-msg','error','Importo non valido.'); return; }
+  hideMsg('merc-msg');
+  S.merc.amount = amount;
+  S.merc.dir    = dir;
+  S.merc.counterpartName = '';
+  const tassa = Math.round(amount * TASSA_MERC);
+  if (dir === 'buy') {
+    prepareScan('Carta del Venditore', `Avvicina la carta del venditore — riceve ${eur(amount)}`, '#27ae60');
+    S.scanRetryFn    = doMercatinoStep1;
+    S.scanCancelDest = 's-mercatino';
+    go('s-scan');
+    doMercatinoStep1();
+  } else {
+    prepareScan('Carta del Compratore', `Avvicina la carta del compratore — paga ${eur(amount + tassa)} (incl. tassa 10%)`, '#e74c3c');
+    S.scanRetryFn    = doMercatinoStep1;
+    S.scanCancelDest = 's-mercatino';
+    go('s-scan');
+    doMercatinoStep1();
+  }
+}
+
+async function doMercatinoStep1() {
+  const { amount, dir } = S.merc;
+  const tassa = Math.round(amount * TASSA_MERC);
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    if (dir === 'buy') {
+      // Credit seller
+      const { updated: seller } = await nfcReadWrite((data) => {
+        validateCard(data);
+        if (data.nome === S.player.nome) throw new Error('Questa \u00e8 la tua carta. Serve la carta del venditore.');
+        return { ...data, saldo: data.saldo + amount,
+                 tx_desc: `\u2190 Mercatino ${S.player.nome}`, tx_delta: amount, tx_ts: now() };
+      });
+      S.merc.counterpartName = seller.nome;
+      prepareScan('La Tua Carta (Compratore)', `Avvicina la tua carta — paghi ${eur(amount + tassa)} (+ 10% tassa)`, '#e74c3c');
+      S.scanRetryFn = doMercatinoStep2;
+      doMercatinoStep2();
+    } else {
+      // Debit buyer
+      const { updated: buyer } = await nfcReadWrite((data) => {
+        validateCard(data);
+        if (data.nome === S.player.nome) throw new Error('Questa \u00e8 la tua carta. Serve la carta del compratore.');
+        const total = amount + tassa;
+        if (data.saldo < total) throw new Error(`Saldo insufficiente del compratore: ha ${eur(data.saldo)}, deve pagare ${eur(total)}.`);
+        return { ...data, saldo: data.saldo - total,
+                 tx_desc: `\u2192 Mercatino ${S.player.nome}`, tx_delta: -total, tx_ts: now() };
+      });
+      S.merc.counterpartName = buyer.nome;
+      prepareScan('La Tua Carta (Venditore)', `Avvicina la tua carta — ricevi ${eur(amount)}`, '#27ae60');
+      S.scanRetryFn = doMercatinoStep2;
+      doMercatinoStep2();
+    }
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doMercatinoStep1;
+  }
+}
+
+async function doMercatinoStep2() {
+  const { amount, dir, counterpartName } = S.merc;
+  const tassa = Math.round(amount * TASSA_MERC);
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    if (dir === 'buy') {
+      const { updated } = await nfcReadWrite((data) => {
+        validateCard(data);
+        const total = amount + tassa;
+        if (data.saldo < total) throw new Error(`Saldo insufficiente: hai ${eur(data.saldo)}, devi pagare ${eur(total)}.`);
+        return { ...data, saldo: data.saldo - total,
+                 tx_desc: `\u2192 Mercatino ${counterpartName}`, tx_delta: -(total), tx_ts: now() };
+      });
+      if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+      showDone(`&#x1F3EA; Mercatino completato!<br>Comprato da <strong>${esc(counterpartName)}</strong><br>Pagato: <strong>${eur(amount)}</strong> + tassa <strong>${eur(tassa)}</strong> = <strong>${eur(amount + tassa)}</strong><br>Tuo saldo: <strong>${eur(updated.saldo)}</strong>`);
+    } else {
+      const { updated } = await nfcReadWrite((data) => {
+        validateCard(data);
+        return { ...data, saldo: data.saldo + amount,
+                 tx_desc: `\u2190 Mercatino ${counterpartName}`, tx_delta: amount, tx_ts: now() };
+      });
+      if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+      showDone(`&#x1F3EA; Mercatino completato!<br>Venduto a <strong>${esc(counterpartName)}</strong><br>Ricevuto: <strong>${eur(amount)}</strong> (tassa ${eur(tassa)} a carico del compratore)<br>Tuo saldo: <strong>${eur(updated.saldo)}</strong>`);
+    }
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doMercatinoStep2;
+  }
+}
+
+/* ═══════════════════════════════════════
+   FINE MESE (+800 stipendio, -spese)
+═══════════════════════════════════════ */
 function confirmFineMese() {
-  const spese = parseFloat(document.getElementById('fine-mese-spese').value) || 0;
-  if (spese < 0) { showMsg('fine-mese-msg', 'error', 'Le spese non possono essere negative.'); return; }
-  if (spese > 0 && spese > STIPENDIO) {
-    // allow, just warn, but don't block — the card read will verify actual balance
-  }
-  hideMsg('fine-mese-msg');
-  S.fine.spese = spese;
-  const net = STIPENDIO - spese;
-  const netLabel = net >= 0 ? `netto +${fmtEur(net)}` : `netto ${fmtEurSigned(net)}`;
-  prepareScanScreen('📅 Fine Mese', `Avvicina la carta — stipendio ${fmtEur(STIPENDIO)}, spese ${fmtEur(spese)} (${netLabel})`, 'fine-mese', '#e67e22');
+  const spese = Math.max(0, parseFloat(document.getElementById('fm-spese').value) || 0);
+  hideMsg('fm-msg');
+  S.fineMese.spese = spese;
+  const net   = STIPENDIO - spese;
+  const color = net >= 0 ? '#27ae60' : '#e74c3c';
+  prepareScan('&#x1F4C5; Fine Mese', `Stipendio +${eur(STIPENDIO)}, spese \u2212${eur(spese)}, netto ${eurSigned(net)}`, color);
   S.scanRetryFn    = doFineMeseScan;
   S.scanCancelDest = 's-fine-mese';
   go('s-scan');
@@ -863,27 +1130,26 @@ function confirmFineMese() {
 }
 
 async function doFineMeseScan() {
-  const spese = S.fine.spese;
-  const net   = STIPENDIO - spese;
+  const { spese } = S.fineMese;
+  const net = STIPENDIO - spese;
   hideMsg('scan-msg');
   document.getElementById('scan-retry').style.display = 'none';
   try {
     const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      const nuovoImporto = data.importo + net;
-      if (nuovoImporto < 0)
-        throw new Error(`Saldo insufficiente: dopo le spese il saldo sarebbe ${fmtEur(nuovoImporto)}.`);
-      return { ...data, importo: nuovoImporto,
-               tx_verso: 'Fine Mese', tx_quanto: net, tx_dataora: new Date().toISOString() };
+      validateCard(data);
+      const nuovoSaldo = data.saldo + net;
+      if (nuovoSaldo < 0) throw new Error(`Saldo insufficiente: dopo le spese il saldo sarebbe ${eur(nuovoSaldo)}.`);
+      return { ...data, saldo: nuovoSaldo, tx_desc: 'Fine Mese', tx_delta: net, tx_ts: now() };
     });
-    if (S.player && S.player.proprietario === updated.proprietario) S.player = updated;
-    document.getElementById('tx-done-info').innerHTML =
-      `📅 Fine Mese per <strong>${esc(updated.proprietario)}</strong><br>
-       Stipendio: <strong>+${fmtEur(STIPENDIO)}</strong><br>
-       ${ spese > 0 ? `Spese: <strong>−${fmtEur(spese)}</strong><br>` : '' }
-       Netto: <strong>${fmtEurSigned(net)}</strong><br>
-       Nuovo saldo: <strong>${fmtEur(updated.importo)}</strong>`;
-    go('s-tx-done');
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    document.getElementById('scan-icon').innerHTML = '<div style="font-size:60px;line-height:1;margin-top:10px;">&#x2705;</div>';
+    document.getElementById('scan-title').textContent = 'Fine Mese Registrato!';
+    document.getElementById('scan-sub').textContent   =
+      `${updated.nome}: +${eur(STIPENDIO)} stipendio${spese > 0 ? ` \u2212${eur(spese)} spese` : ''} = ${eurSigned(net)} | Saldo: ${eur(updated.saldo)}`;
+    // Allow scanning next player without navigating away
+    document.getElementById('scan-retry').textContent = 'Prossimo Giocatore \u2192';
+    document.getElementById('scan-retry').style.display = 'block';
+    S.scanRetryFn = doFineMeseScan;
   } catch (err) {
     if (err.name === 'AbortError') return;
     showScanError(err.message || 'Errore NFC.');
@@ -891,217 +1157,288 @@ async function doFineMeseScan() {
   }
 }
 
-/* ══════════════════════════════════════════
-   INVIA DENARO
-══════════════════════════════════════════ */
-function confirmSendAmount() {
-  const amount = parseFloat(document.getElementById('send-amount-input').value);
-  if (isNaN(amount) || amount <= 0) { showMsg('send-amount-msg', 'error', 'Inserisci un importo valido.'); return; }
-  hideMsg('send-amount-msg');
-  S.send.amount = amount;
-  prepareScanScreen('La Tua Carta (Pagante)', `Avvicina la tua carta per pagare ${fmtEur(amount)}`, 'send-me', '#e74c3c');
-  S.scanRetryFn    = doSendMyScan;
-  S.scanCancelDest = 's-send-amount';
-  go('s-scan');
-  doSendMyScan();
+/* ═══════════════════════════════════════
+   JACKPOT
+═══════════════════════════════════════ */
+function getJackpot()   { try { return JSON.parse(localStorage.getItem(JACKPOT_KEY)) || { pot: 0 }; } catch { return { pot: 0 }; } }
+function saveJackpot(d) { localStorage.setItem(JACKPOT_KEY, JSON.stringify(d)); }
+
+function updateJackpotDisplays() {
+  const pot    = getJackpot().pot;
+  const mainBox = document.getElementById('jackpot-display-main');
+  mainBox.style.display = pot > 0 ? 'block' : 'none';
+  if (pot > 0) document.getElementById('jackpot-main-val').textContent = eur(pot);
+  const jvd = document.getElementById('jackpot-value-display');
+  if (jvd) jvd.textContent = eur(pot);
 }
 
-async function doSendMyScan() {
-  const amount = S.send.amount;
+function showJackpot() {
+  updateJackpotDisplays();
+  renderJackpotContent();
+  go('s-jackpot');
+}
+
+function renderJackpotContent() {
+  const pot = getJackpot().pot;
+  document.getElementById('jackpot-content').innerHTML = `
+    <div class="form-group">
+      <label>Contributo al Jackpot (&#x20AC;)</label>
+      <input id="jp-amount" type="number" placeholder="50" min="1" step="1" />
+    </div>
+    <button class="btn btn-orange" onclick="jackpotContribuisci()">&#x1F4B0; Contribuisci (Scansiona Carta)</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
+    <button class="btn btn-gold" onclick="jackpotVinci()" ${pot > 0 ? '' : 'disabled'}>&#x1F3C6; Assegna Jackpot al Vincitore</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;">
+      <strong>Come funziona:</strong> Quando un giocatore atterra sulla casella Jackpot del tabellone,
+      contribuisce al montepremi scansionando la sua carta.<br>
+      Il giocatore fortunato che vince il Jackpot (dado speciale o casella apposita)
+      si aggiudica l'intero montepremi accumulato.
+    </div>`;
+}
+
+function jackpotContribuisci() {
+  const amount = parseFloat(document.getElementById('jp-amount').value);
+  if (isNaN(amount) || amount <= 0) { alert('Inserisci un importo valido.'); return; }
+  if (!nfcOk()) return;
+  S._jpAmount = amount;
+  prepareScan('&#x1F3B0; Jackpot — Contribuisci', `Avvicina la carta — verranno prelevati ${eur(amount)}`, '#e67e22');
+  S.scanRetryFn    = doJackpotContribuisci;
+  S.scanCancelDest = 's-jackpot';
+  go('s-scan');
+  doJackpotContribuisci();
+}
+
+async function doJackpotContribuisci() {
+  const amount = S._jpAmount;
   hideMsg('scan-msg');
   document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      if (data.saldo < amount) throw new Error(`Saldo insufficiente: ${data.nome} ha solo ${eur(data.saldo)}.`);
+      return { ...data, saldo: data.saldo - amount, tx_desc: '\u2192 Jackpot', tx_delta: -amount, tx_ts: now() };
+    });
+    const jp = getJackpot();
+    jp.pot = (jp.pot || 0) + amount;
+    saveJackpot(jp);
+    updateJackpotDisplays();
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    document.getElementById('scan-icon').innerHTML = '<div style="font-size:60px;line-height:1;margin-top:10px;">&#x1F3B0;</div>';
+    document.getElementById('scan-title').textContent = 'Contributo Registrato!';
+    document.getElementById('scan-sub').textContent   = `${updated.nome} ha contribuito ${eur(amount)}. Jackpot: ${eur(jp.pot)}`;
+    document.getElementById('scan-retry').textContent = 'Altro Contributo \u2192';
+    document.getElementById('scan-retry').style.display = 'block';
+    S.scanRetryFn = doJackpotContribuisci;
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doJackpotContribuisci;
+  }
+}
+
+function jackpotVinci() {
+  const pot = getJackpot().pot;
+  if (pot <= 0 || !nfcOk()) return;
+  prepareScan('&#x1F3C6; Jackpot — Vincitore!', `Avvicina la carta del vincitore — ricever\u00e0 ${eur(pot)}`, '#d4af37');
+  S.scanRetryFn    = doJackpotVinci;
+  S.scanCancelDest = 's-jackpot';
+  go('s-scan');
+  doJackpotVinci();
+}
+
+async function doJackpotVinci() {
+  const pot = getJackpot().pot;
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      return { ...data, saldo: data.saldo + pot, tx_desc: '&#x1F3C6; Jackpot Vinto!', tx_delta: pot, tx_ts: now() };
+    });
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    saveJackpot({ pot: 0 });
+    updateJackpotDisplays();
+    document.getElementById('scan-icon').innerHTML = '<div style="font-size:72px;line-height:1;margin-top:6px;">&#x1F3C6;</div>';
+    document.getElementById('scan-title').textContent = 'Jackpot Vinto!';
+    document.getElementById('scan-sub').textContent   = `${updated.nome} ha vinto ${eur(pot)}! Nuovo saldo: ${eur(updated.saldo)}`;
+    S.scanRetryFn = null;
+    setTimeout(() => go('s-main'), 3500);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doJackpotVinci;
+  }
+}
+
+/* ═══════════════════════════════════════
+   LOTTERIA (round-based, pot starts 1000)
+═══════════════════════════════════════ */
+function getLotteria()   { try { return JSON.parse(localStorage.getItem(LOTTERIA_KEY)) || null; } catch { return null; } }
+function saveLotteria(d) { if (d) localStorage.setItem(LOTTERIA_KEY, JSON.stringify(d)); else localStorage.removeItem(LOTTERIA_KEY); }
+
+function showLotteria() {
+  renderLotteriaContent();
+  go('s-lotteria');
+}
+
+function renderLotteriaContent() {
+  const L  = getLotteria();
+  const el = document.getElementById('lotteria-content');
+  if (!L) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:8px 0 16px;">
+        <div style="font-size:48px;margin-bottom:8px;">&#x1F3B2;</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">
+          Montepremi iniziale: <strong>&#x20AC; 1.000</strong><br>
+          Round 1: 100&#x20AC; &bull; Round 2: 200&#x20AC; &bull; Round 3: 400&#x20AC;&#x2026;<br>
+          Chi partecipa al round N pu&#xF2; accedere al round N+1.<br>
+          Il vincitore incassa l&#x2019;intero montepremi.
+        </p>
+      </div>
+      <button class="btn btn-gold" onclick="lotteriaCreate()">&#x2728; Crea Lotteria</button>`;
+    return;
+  }
+  const eligible = L.prevPartecipanti === null
+    ? '<span style="color:#27ae60;">Tutti possono partecipare</span>'
+    : `<span>${L.prevPartecipanti.length} dal round precedente</span>`;
+  const pChips = L.partecipanti.length
+    ? L.partecipanti.map(n => `<span style="display:inline-block;background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.4);border-radius:14px;padding:3px 10px;font-size:12px;font-weight:700;margin:2px;">${esc(n)}</span>`).join('')
+    : '<span style="color:#aaa;font-size:13px;">Nessuno ancora</span>';
+  const canNext = L.partecipanti.length >= 1;
+  const canWin  = L.partecipanti.length >= 1;
+  el.innerHTML = `
+    <div class="info-row"><span class="info-label">Montepremi</span><span class="info-value" style="color:#27ae60;font-size:18px;font-weight:900;">${eur(L.pot)}</span></div>
+    <div class="info-row"><span class="info-label">Round</span><span class="info-value">#${L.round}</span></div>
+    <div class="info-row"><span class="info-label">Quota</span><span class="info-value">${eur(L.quota)}</span></div>
+    <div class="info-row"><span class="info-label">Idonei</span><span class="info-value" style="text-align:right;max-width:60%;">${eligible}</span></div>
+    <div style="margin:12px 0 16px;">
+      <div class="section-label">Partecipanti round #${L.round} (${L.partecipanti.length})</div>
+      <div style="margin-top:6px;">${pChips}</div>
+    </div>
+    <button class="btn btn-gold" onclick="lotteriaPartecipa()">&#x1F39F;&#xFE0F; Partecipa &mdash; ${eur(L.quota)}</button>
+    <button class="btn btn-green" onclick="lotteriaNextRound()" ${canNext ? '' : 'disabled'}>&#x23ED;&#xFE0F; Round Successivo (quota &times;2)</button>
+    <button class="btn btn-blue" onclick="lotteriaVinci()" ${canWin ? '' : 'disabled'}>&#x1F3C6; Dichiara Vincitore</button>
+    <hr style="border:none;border-top:1px solid #eee;margin:10px 0;">
+    <button class="btn btn-outline btn-sm" id="lot-cancel-btn" onclick="lotteriaAnnulla()" style="color:#c0392b;border-color:#c0392b;opacity:.65;">&#x1F5D1;&#xFE0F; Annulla Lotteria</button>`;
+}
+
+function lotteriaCreate() {
+  saveLotteria({ pot: 1000, round: 1, quota: 100, partecipanti: [], prevPartecipanti: null });
+  renderLotteriaContent();
+}
+
+function lotteriaNextRound() {
+  const L = getLotteria();
+  if (!L || L.partecipanti.length < 1) return;
+  L.prevPartecipanti = [...L.partecipanti];
+  L.partecipanti = [];
+  L.round++;
+  L.quota *= 2;
+  saveLotteria(L);
+  renderLotteriaContent();
+}
+
+function lotteriaAnnulla() {
+  const btn = document.getElementById('lot-cancel-btn');
+  if (btn && btn.dataset.confirm !== 'yes') {
+    btn.dataset.confirm = 'yes'; btn.textContent = '&#x26A0;&#xFE0F; Conferma annullamento'; btn.style.opacity = '1'; return;
+  }
+  saveLotteria(null);
+  renderLotteriaContent();
+}
+
+function lotteriaPartecipa() {
+  if (!nfcOk()) return;
+  const L = getLotteria();
+  if (!L) return;
+  prepareScan('&#x1F39F;&#xFE0F; Partecipa Lotteria', `Avvicina la carta &mdash; quota ${eur(L.quota)}`, '#e67e22');
+  S.scanRetryFn    = doLotteriaPartecipa;
+  S.scanCancelDest = 's-lotteria';
+  go('s-scan');
+  doLotteriaPartecipa();
+}
+
+async function doLotteriaPartecipa() {
+  const L = getLotteria();
+  if (!L) { showScanError('Nessuna lotteria attiva.'); return; }
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  let joinedName = null;
   try {
     await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      if (data.proprietario !== S.player.proprietario)
-        throw new Error('Questa non è la tua carta. Avvicina la tua carta.');
-      if (data.importo < amount)
-        throw new Error(`Saldo insufficiente: hai solo ${fmtEur(data.importo)}.`);
-      return { ...data, importo: data.importo - amount,
-               tx_verso: '→ Invio', tx_quanto: -amount, tx_dataora: new Date().toISOString() };
+      validateCard(data);
+      const name = data.nome;
+      if (L.prevPartecipanti !== null && !L.prevPartecipanti.includes(name))
+        throw new Error(`${name} non ha partecipato al round precedente.`);
+      if (L.partecipanti.includes(name))
+        throw new Error(`${name} ha gi\u00e0 partecipato a questo round.`);
+      if (data.saldo < L.quota)
+        throw new Error(`Saldo insufficiente: ${name} ha solo ${eur(data.saldo)}.`);
+      joinedName = name;
+      return { ...data, saldo: data.saldo - L.quota,
+               tx_desc: `Lotteria R${L.round}`, tx_delta: -L.quota, tx_ts: now() };
     });
-    // Step 1 OK → prepare step 2
-    prepareScanScreen('Carta del Destinatario', `Avvicina la carta di chi riceve ${fmtEur(amount)}`, 'send-dest', '#27ae60');
-    S.scanRetryFn    = doSendReceiverScan;
-    S.scanCancelDest = 's-secondary';
-    doSendReceiverScan();
+    L.partecipanti.push(joinedName);
+    L.pot += L.quota;
+    saveLotteria(L);
+    document.getElementById('scan-title').textContent = '&#x2705; Iscritto!';
+    document.getElementById('scan-sub').textContent   = `${joinedName} ha pagato ${eur(L.quota)}. Montepremi: ${eur(L.pot)}`;
+    document.getElementById('scan-retry').textContent = 'Altro Partecipante \u2192';
+    document.getElementById('scan-retry').style.display = 'block';
+    S.scanRetryFn = lotteriaPartecipa;
   } catch (err) {
     if (err.name === 'AbortError') return;
     showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = doSendMyScan;
+    S.scanRetryFn = lotteriaPartecipa;
   }
 }
 
-async function doSendReceiverScan() {
-  const amount = S.send.amount;
-  hideMsg('scan-msg');
-  document.getElementById('scan-retry').style.display = 'none';
-  try {
-    const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      if (data.proprietario === S.player.proprietario)
-        throw new Error('Non puoi inviare denaro a te stesso.');
-      return { ...data, importo: data.importo + amount,
-               tx_verso: S.player.proprietario, tx_quanto: amount, tx_dataora: new Date().toISOString() };
-    });
-    document.getElementById('tx-done-info').innerHTML =
-      `Hai inviato <strong>${fmtEur(amount)}</strong> a <strong>${esc(updated.proprietario)}</strong><br>
-       Nuovo saldo destinatario: <strong>${fmtEur(updated.importo)}</strong>`;
-    go('s-tx-done');
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = doSendReceiverScan;
-  }
-}
-
-/* ══════════════════════════════════════════
-   BANCA
-══════════════════════════════════════════ */
-function showBankScreen() {
-  S.bank.dir = 'recv';
-  setBankDir('recv');
-  hideMsg('bank-msg');
-  document.getElementById('bank-amount-input').value = '';
-  go('s-bank');
-}
-
-function setBankDir(dir) {
-  S.bank.dir = dir;
-  document.getElementById('bank-btn-recv').style.opacity = dir === 'recv' ? '1' : '0.4';
-  document.getElementById('bank-btn-pay').style.opacity  = dir === 'pay'  ? '1' : '0.4';
-}
-
-function confirmBankOp() {
-  const amount = parseFloat(document.getElementById('bank-amount-input').value);
-  if (isNaN(amount) || amount <= 0) { showMsg('bank-msg', 'error', 'Inserisci un importo valido.'); return; }
-  hideMsg('bank-msg');
-  S.bank.amount = amount;
-  const dir   = S.bank.dir;
-  const label = dir === 'recv' ? 'ricevere da' : 'pagare alla';
-  const color = dir === 'recv' ? '#27ae60' : '#e74c3c';
-  prepareScanScreen('Carta — Banca', `Avvicina la carta per ${label} Banca ${fmtEur(amount)}`, 'bank', color);
-  S.scanRetryFn    = doBankScan;
-  S.scanCancelDest = 's-bank';
-  go('s-scan');
-  doBankScan();
-}
-
-async function doBankScan() {
-  const { amount, dir } = S.bank;
-  hideMsg('scan-msg');
-  document.getElementById('scan-retry').style.display = 'none';
-  try {
-    const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      if (dir === 'pay' && data.importo < amount)
-        throw new Error(`Saldo insufficiente: il giocatore ha solo ${fmtEur(data.importo)}.`);
-      const delta = dir === 'recv' ? amount : -amount;
-      return { ...data, importo: data.importo + delta,
-               tx_verso: 'Banca', tx_quanto: delta, tx_dataora: new Date().toISOString() };
-    });
-    if (S.player && S.player.proprietario === updated.proprietario) S.player = updated;
-    const verb = dir === 'recv' ? 'ricevuto' : 'pagato';
-    document.getElementById('tx-done-info').innerHTML =
-      `<strong>${esc(updated.proprietario)}</strong> ha ${verb} <strong>${fmtEur(amount)}</strong> ${dir === 'recv' ? 'dalla' : 'alla'} Banca<br>
-       Nuovo saldo: <strong>${fmtEur(updated.importo)}</strong>`;
-    go('s-tx-done');
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = doBankScan;
-  }
-}
-
-/* ══════════════════════════════════════════
-   PRESTITI
-══════════════════════════════════════════ */
-function showLoanScreen() {
-  S.loan.type = 'take';
-  setLoanType('take');
-  hideMsg('loan-msg');
-  document.getElementById('loan-amount-input').value = '';
-  renderLoanDebt();
-  go('s-loan');
-}
-
-function setLoanType(type) {
-  S.loan.type = type;
-  document.getElementById('loan-btn-take').style.opacity  = type === 'take'  ? '1' : '0.4';
-  document.getElementById('loan-btn-repay').style.opacity = type === 'repay' ? '1' : '0.4';
-}
-
-function renderLoanDebt() {
-  const debt = (S.player && S.player.prestiti) || 0;
-  const el   = document.getElementById('loan-debt-info');
-  if (!el) return;
-  if (debt > 0) {
-    el.innerHTML = `<div style="background:rgba(192,57,43,.1); border:1px solid rgba(192,57,43,.3); border-radius:10px; padding:10px 14px; font-size:14px; color:#c0392b;">
-      ⚠️ Debito attuale (tua carta): <strong>${fmtEur(debt)}</strong>
-    </div>`;
-  } else {
-    el.innerHTML = `<div style="background:rgba(39,174,96,.1); border:1px solid rgba(39,174,96,.3); border-radius:10px; padding:10px 14px; font-size:13px; color:#1e8449;">
-      ✓ Nessun debito attuale
-    </div>`;
-  }
-}
-
-function confirmLoanOp() {
-  const amount = parseFloat(document.getElementById('loan-amount-input').value);
-  if (isNaN(amount) || amount <= 0) { showMsg('loan-msg', 'error', 'Inserisci un importo valido.'); return; }
-  hideMsg('loan-msg');
-  S.loan.amount = amount;
-  const type  = S.loan.type;
-  const label = type === 'take' ? `chiedere un prestito di ${fmtEur(amount)}` : `rimborsare ${fmtEur(amount)}`;
-  const color = type === 'take' ? '#2196f3' : '#6c3483';
-  prepareScanScreen('Scansiona Carta', `Avvicina la carta per ${label}`, 'loan', color);
-  S.scanRetryFn    = doLoanScan;
-  S.scanCancelDest = 's-loan';
-  go('s-scan');
-  doLoanScan();
-}
-
-async function doLoanScan() {
-  const { amount, type } = S.loan;
-  hideMsg('scan-msg');
-  document.getElementById('scan-retry').style.display = 'none';
-  try {
-    const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      const currentDebt = data.prestiti || 0;
-      if (type === 'repay') {
-        if (data.importo < amount)
-          throw new Error(`Saldo insufficiente per rimborsare: il giocatore ha solo ${fmtEur(data.importo)}.`);
-        return { ...data,
-          importo:  data.importo - amount,
-          prestiti: Math.max(0, currentDebt - amount),
-          tx_verso: 'Rimborso Prestito', tx_quanto: -amount, tx_dataora: new Date().toISOString() };
-      } else {
-        return { ...data,
-          importo:  data.importo + amount,
-          prestiti: currentDebt + amount,
-          tx_verso: 'Prestito', tx_quanto: amount, tx_dataora: new Date().toISOString() };
-      }
-    });
-    if (S.player && S.player.proprietario === updated.proprietario) S.player = updated;
-    const verb      = type === 'take' ? 'ha ricevuto un prestito di' : 'ha rimborsato';
-    const debtAfter = updated.prestiti || 0;
-    document.getElementById('tx-done-info').innerHTML =
-      `<strong>${esc(updated.proprietario)}</strong> ${verb} <strong>${fmtEur(amount)}</strong><br>
-       Saldo: <strong>${fmtEur(updated.importo)}</strong>${debtAfter > 0 ? `<br>Debito residuo: <strong style="color:#c0392b;">${fmtEur(debtAfter)}</strong>` : ''}`;
-    go('s-tx-done');
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = doLoanScan;
-  }
-}
-
-/* ══════════════════════════════════════════
-   SCREEN 10 – FINE PARTITA
-══════════════════════════════════════════ */
-function startEndGame() {
+function lotteriaVinci() {
   if (!nfcOk()) return;
+  const L = getLotteria();
+  if (!L || L.partecipanti.length === 0) return;
+  prepareScan('&#x1F3C6; Dichiara Vincitore', `Avvicina la carta del vincitore &mdash; ricever\u00e0 ${eur(L.pot)}`, '#d4af37');
+  S.scanRetryFn    = doLotteriaVinci;
+  S.scanCancelDest = 's-lotteria';
+  go('s-scan');
+  doLotteriaVinci();
+}
+
+async function doLotteriaVinci() {
+  const L = getLotteria();
+  if (!L) { showScanError('Nessuna lotteria attiva.'); return; }
+  hideMsg('scan-msg');
+  document.getElementById('scan-retry').style.display = 'none';
+  try {
+    const { updated } = await nfcReadWrite((data) => {
+      validateCard(data);
+      if (!L.partecipanti.includes(data.nome))
+        throw new Error(`${data.nome} non ha partecipato all'ultimo round.`);
+      return { ...data, saldo: data.saldo + L.pot,
+               tx_desc: '&#x1F3C6; Lotteria Vinta!', tx_delta: L.pot, tx_ts: now() };
+    });
+    if (S.player && S.player.nome === updated.nome) { S.player = updated; renderPlayerChip(updated); }
+    saveLotteria(null);
+    document.getElementById('scan-icon').innerHTML = '<div style="font-size:72px;line-height:1;margin-top:6px;">&#x1F3C6;</div>';
+    document.getElementById('scan-title').textContent = 'Vincitore Lotteria!';
+    document.getElementById('scan-sub').textContent   = `${updated.nome} ha vinto ${eur(L.pot)}! Nuovo saldo: ${eur(updated.saldo)}`;
+    S.scanRetryFn = null;
+    setTimeout(() => go('s-main'), 3500);
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    showScanError(err.message || 'Errore NFC.');
+    S.scanRetryFn = doLotteriaVinci;
+  }
+}
+
+/* ═══════════════════════════════════════
+   FINE PARTITA
+═══════════════════════════════════════ */
+function startEndGame() {
+  const p = S.player;
+  if (!p) return;
+  document.getElementById('end-player-name').textContent = p.nome;
   hideMsg('end-msg');
   document.getElementById('end-retry').style.display = 'none';
   go('s-end');
@@ -1111,205 +1448,13 @@ function startEndGame() {
 async function doEndGame() {
   try {
     await nfcWrite(emptyCard());
-    showMsg('end-msg', 'success', '✓ Carta cancellata con successo!');
+    showMsg('end-msg', 'success', '&#x2713; Carta azzerata con successo!');
     S.player = null;
     setTimeout(() => go('s-main'), 2000);
   } catch (err) {
     if (err.name === 'AbortError') return;
-    showMsg('end-msg', 'error', '❌ ' + (err.message || 'Errore NFC.'));
+    showMsg('end-msg', 'error', '&#x274C; ' + (err.message || 'Errore NFC.'));
     document.getElementById('end-retry').style.display = 'block';
-  }
-}
-
-/* ══════════════════════════════════════════
-   SCREEN 11 – LOTTERIA
-══════════════════════════════════════════ */
-const LOTTERY_KEY = 'monopoly_nfc_lottery';
-
-function getLottery() {
-  try { return JSON.parse(localStorage.getItem(LOTTERY_KEY)) || null; } catch { return null; }
-}
-function saveLottery(data) {
-  if (data) localStorage.setItem(LOTTERY_KEY, JSON.stringify(data));
-  else localStorage.removeItem(LOTTERY_KEY);
-}
-
-function showLottery() {
-  renderLotteryScreen();
-  go('s-lottery');
-}
-
-function renderLotteryScreen() {
-  const L      = getLottery();
-  const infoEl = document.getElementById('lottery-info');
-  const actEl  = document.getElementById('lottery-actions');
-  hideMsg('lottery-msg');
-
-  if (!L) {
-    infoEl.innerHTML = `
-      <div style="text-align:center; padding:12px 0 4px;">
-        <div style="font-size:48px; margin-bottom:8px;">🎰</div>
-        <div style="font-size:15px; font-weight:700; color:var(--dark-green); margin-bottom:4px;">Montepremi iniziale: ${fmtEur(1000)}</div>
-        <p style="color:var(--muted); font-size:13px; line-height:1.6;">
-          Round 1: 100€ &nbsp;•&nbsp; Round 2: 200€ &nbsp;•&nbsp; Round 3: 400€…<br>
-          Il vincitore prende il montepremi + tutte le quote versate.
-        </p>
-      </div>`;
-    actEl.innerHTML = `<button class="btn btn-gold" onclick="lotteryCreate()">✨ Crea Lotteria</button>`;
-    return;
-  }
-
-  const eligibleLabel = L.prevParticipants === null
-    ? '<span style="color:#27ae60;">Tutti possono partecipare</span>'
-    : `${L.prevParticipants.length} giocatori dal round precedente`;
-
-  const pList = L.roundParticipants.length
-    ? L.roundParticipants.map(n =>
-        `<span style="display:inline-block; background:rgba(212,175,55,.15); border:1px solid rgba(212,175,55,.4); border-radius:8px; padding:3px 10px; font-size:12px; margin:2px 2px;">${esc(n)}</span>`
-      ).join('')
-    : '<span style="color:#aaa; font-size:13px;">Nessuno ancora</span>';
-
-  infoEl.innerHTML = `
-    <div class="info-row"><span class="info-label">Montepremi</span><span class="info-value" style="color:#27ae60; font-size:18px; font-weight:900;">${fmtEur(L.pot)}</span></div>
-    <div class="info-row"><span class="info-label">Round</span><span class="info-value">#${L.round}</span></div>
-    <div class="info-row"><span class="info-label">Quota</span><span class="info-value">${fmtEur(L.roundCost)}</span></div>
-    <div class="info-row"><span class="info-label">Idonei</span><span class="info-value" style="max-width:70%;">${eligibleLabel}</span></div>
-    <div style="margin-top:12px;">
-      <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Partecipanti round #${L.round} (${L.roundParticipants.length})</div>
-      <div>${pList}</div>
-    </div>`;
-
-  const canNext = L.roundParticipants.length >= 1;
-  const canWin  = L.roundParticipants.length >= 1;
-  actEl.innerHTML = `
-    <button class="btn btn-gold" onclick="lotteryJoin()">🎟️ Partecipa — ${fmtEur(L.roundCost)}</button>
-    <button class="btn btn-green" onclick="lotteryNextRound()" ${canNext ? '' : 'disabled style="opacity:.4;"'}>⏭️ Round Successivo (quota ×2)</button>
-    <button class="btn btn-blue" onclick="lotteryAwardWinner()" ${canWin ? '' : 'disabled style="opacity:.4;"'}>🏆 Dichiara Vincitore</button>
-    <hr style="border:none; border-top:1px solid #eee; margin:8px 0;">
-    <button class="btn btn-red" onclick="lotteryCancel()" style="opacity:.65;" id="lottery-cancel-btn">🗑️ Annulla Lotteria</button>`;
-}
-
-function lotteryCreate() {
-  saveLottery({ pot: 1000, round: 1, roundCost: 100, roundParticipants: [], prevParticipants: null });
-  renderLotteryScreen();
-}
-
-function lotteryNextRound() {
-  const L = getLottery();
-  if (!L || L.roundParticipants.length < 1) return;
-  L.prevParticipants = [...L.roundParticipants];
-  L.roundParticipants = [];
-  L.round++;
-  L.roundCost *= 2;
-  saveLottery(L);
-  renderLotteryScreen();
-  showMsg('lottery-msg', 'success', `✓ Round #${L.round} aperto! Quota: ${fmtEur(L.roundCost)}`);
-}
-
-function lotteryCancel() {
-  const btn = document.getElementById('lottery-cancel-btn');
-  if (btn && btn.dataset.confirm !== 'yes') {
-    btn.dataset.confirm = 'yes';
-    btn.textContent = '⚠️ Conferma annullamento';
-    btn.style.opacity = '1';
-    return;
-  }
-  saveLottery(null);
-  renderLotteryScreen();
-}
-
-function lotteryJoin() {
-  if (!nfcOk()) return;
-  const L = getLottery();
-  if (!L) { showMsg('lottery-msg', 'error', 'Nessuna lotteria attiva.'); return; }
-  hideMsg('lottery-msg');
-  S.scanCancelDest = 's-lottery';
-  prepareScanScreen('🎟️ Partecipa alla Lotteria', `Avvicina la carta per pagare ${fmtEur(L.roundCost)}`, 'lottery-join');
-  S.scanRetryFn = lotteryJoin;
-  go('s-scan');
-  doLotteryJoin();
-}
-
-async function doLotteryJoin() {
-  const L = getLottery();
-  if (!L) { showScanError('Nessuna lotteria attiva.'); return; }
-  let participantName = null;
-
-  try {
-    await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      const name = data.proprietario;
-      if (L.prevParticipants !== null && !L.prevParticipants.includes(name))
-        throw new Error(`${name} non ha partecipato al round precedente.`);
-      if (L.roundParticipants.includes(name))
-        throw new Error(`${name} ha già partecipato a questo round.`);
-      if (data.importo < L.roundCost)
-        throw new Error(`Saldo insufficiente: ${name} ha solo ${fmtEur(data.importo)}.`);
-      participantName = name;
-      return { ...data, importo: data.importo - L.roundCost,
-               tx_verso: `Lotteria R${L.round}`, tx_quanto: -L.roundCost, tx_dataora: new Date().toISOString() };
-    });
-
-    // NFC write OK → commit to lottery state
-    L.roundParticipants.push(participantName);
-    L.pot += L.roundCost;
-    saveLottery(L);
-
-    document.getElementById('scan-title').textContent = '✅ Iscritto!';
-    document.getElementById('scan-sub').textContent =
-      `${participantName} ha pagato ${fmtEur(L.roundCost)}. Montepremi attuale: ${fmtEur(L.pot)}`;
-
-    setTimeout(() => { S.scanCancelDest = 's-main'; showLottery(); }, 2200);
-
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = lotteryJoin;
-  }
-}
-
-function lotteryAwardWinner() {
-  if (!nfcOk()) return;
-  const L = getLottery();
-  if (!L || L.roundParticipants.length === 0) { showMsg('lottery-msg', 'error', 'Nessun partecipante idoneo.'); return; }
-  hideMsg('lottery-msg');
-  S.scanCancelDest = 's-lottery';
-  prepareScanScreen('🏆 Dichiara Vincitore', `Avvicina la carta del vincitore per assegnare ${fmtEur(L.pot)}`, 'lottery-winner');
-  S.scanRetryFn = lotteryAwardWinner;
-  go('s-scan');
-  doLotteryWinner();
-}
-
-async function doLotteryWinner() {
-  const L = getLottery();
-  if (!L) { showScanError('Nessuna lotteria attiva.'); return; }
-
-  try {
-    const { updated } = await nfcReadWrite((data) => {
-      if (!data || !data.proprietario) throw new Error('Carta non valida.');
-      const name = data.proprietario;
-      if (!L.roundParticipants.includes(name))
-        throw new Error(`${name} non ha partecipato all'ultimo round.`);
-      return { ...data, importo: data.importo + L.pot,
-               tx_verso: 'Lotteria Vinta', tx_quanto: L.pot, tx_dataora: new Date().toISOString() };
-    });
-
-    const winner = updated.proprietario;
-    const prize  = L.pot;
-    if (S.player && S.player.proprietario === winner) S.player = updated;
-    saveLottery(null);
-
-    document.getElementById('scan-icon').innerHTML = '<div style="font-size:72px; line-height:1; margin-top:8px;">🏆</div>';
-    document.getElementById('scan-title').textContent = '🏆 Vincitore!';
-    document.getElementById('scan-sub').textContent   = `${winner} ha vinto ${fmtEur(prize)}! Congratulazioni!`;
-    S.scanRetryFn  = null;
-    S.scanCancelDest = 's-main';
-    setTimeout(() => go('s-secondary'), 3000);
-
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    showScanError(err.message || 'Errore NFC.');
-    S.scanRetryFn = lotteryAwardWinner;
   }
 }
 
@@ -1317,6 +1462,7 @@ async function doLotteryWinner() {
 window.addEventListener('DOMContentLoaded', () => {
   if (!('NDEFReader' in window))
     document.getElementById('nfc-warn').style.display = 'block';
+  updateJackpotDisplays();
 });
 </script>
 </body>
